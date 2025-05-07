@@ -11,7 +11,7 @@ const contacts: ContactType[] = [
 
 export default function ContactList() {
   return (
-    <div className="p-6">
+    <div className="w-full h-full bg-[#121212] border-gray-800 p-6 shadow-lg">
       <h2 className="text-white text-lg font-semibold mb-4">Contacts</h2>
       <div className="space-y-2">
         {contacts.map((contact) => (

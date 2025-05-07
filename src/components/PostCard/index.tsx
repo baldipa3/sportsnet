@@ -1,4 +1,3 @@
-import React from "react";
 import { FaHeart, FaComment } from "react-icons/fa";
 import { GiSoccerKick } from "react-icons/gi";
 
@@ -36,7 +35,7 @@ const posts: Post[] = [
 
 const PostCard = () => {
   return (
-    <div className="w-full max-w-screen-lg px-4">
+    <div className="w-full max-w-screen-lg px-4 mt-4">
       {posts.map((post: Post) => (
         <div
           key={post.id}

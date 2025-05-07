@@ -11,7 +11,7 @@ const SportsNavbar = () => {
           <img
             src="/assets/logo.png"
             alt="Sportsnet Logo"
-            className="w-10 h-10 mr-3"
+            className="w-20 h-20 mr-1"
           />
           <span className="text-white font-bold text-xl tracking-wide">
             Sportsnet

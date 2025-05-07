@@ -29,16 +29,19 @@ const sports = [
 
 const Sports = () => {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-[#171717] min-h-screen">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-6 px-8 bg-[#171717] min-h-screen">
       {sports.map((sport) => (
-        <Link to={`/sports/${sport.id}`} key={sport.id}>
-          <div className="relative rounded-xl shadow-md flex flex-col items-center justify-center text-white text-xl font-semibold aspect-square bg-gradient-to-br from-[#1E1E1E] to-[#2A2A2A] hover:from-[#222222] hover:to-[#333333] transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:ring-4 hover:ring-[#8BC34A] p-8">
-            <div className="text-[#8BC34A]">{sport.icon}</div>
-            <h2 className="uppercase tracking-wide text-center mt-2">
-              {sport.name}
-            </h2>
-          </div>
-        </Link>
+        <div className="isolate relative rounded-xl shadow-md flex flex-col items-center justify-center text-white text-xl font-semibold aspect-square bg-gradient-to-br from-[#1E1E1E] to-[#2A2A2A] hover:from-[#222222] hover:to-[#333333] transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:ring-4 hover:ring-[#8BC34A] p-8">
+          <Link to={`/sports/${sport.id}`} key={sport.id}>
+            <span className="absolute inset-0 z-10"></span>
+            <div className="flex flex-col items-center justify-center h-full">
+              <div className="text-[#8BC34A]">{sport.icon}</div>
+              <h2 className="uppercase tracking-wide text-center mt-2">
+                {sport.name}
+              </h2>
+            </div>
+          </Link>
+        </div>
       ))}
     </div>
   );

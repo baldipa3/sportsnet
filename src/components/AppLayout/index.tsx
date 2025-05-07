@@ -1,9 +1,9 @@
-import SportsNavbar from "../../components/SportsNavbar";
-import SportsSidebar from "../../components/SportsSidebar";
-import ContactList from "../../components/ContactList";
+import SportsNavbar from "../SportsNavbar";
+import SportsSidebar from "../SportsSidebar";
+import ContactList from "../ContactList";
 import { Outlet } from "react-router-dom";
 
-const Home = () => {
+const AppLayout = () => {
   return (
     <div>
       <SportsNavbar />
@@ -22,4 +22,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default AppLayout;
