@@ -14,8 +14,7 @@ const LandingPage = () => {
           <p className="text-lg text-gray-400 max-w-3xl">
             Join the ultimate social network for sports enthusiasts. Share your
             achievements, connect with athletes, and track your progress in
-            real-time. Built with Vite, React, TypeScript, and Tailwind CSS,
-            powered by an Elixir backend.
+            real-time.
           </p>
           <button className="mt-6 px-8 py-3 bg-green-500 text-white rounded-lg shadow-lg hover:bg-green-600 transition-colors">
             Learn More
