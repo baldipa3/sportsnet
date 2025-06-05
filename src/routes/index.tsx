@@ -9,6 +9,7 @@ import Sports from "../pages/Sports";
 import SportShow from "../pages/Sports/Show";
 import PrivateRoute from "./PrivateRoute";
 import AppLayout from "../components/AppLayout";
+import RegisterPage from "../pages/RegisterPage";
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
       <Routes>
         {/* Public Route */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         {/* Private Routes Wrapped in AppLayout */}
         <Route
