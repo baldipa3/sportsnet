@@ -12,7 +12,7 @@ npm:
 	echo "Installing Node.js dependencies locally..." && \
 	npm $(ARGS)
 
-start:
+up:
 	@echo "Starting frontend container..." && \
 	docker start frontend
 
@@ -20,6 +20,6 @@ restart:
 	@echo "Restarting frontend container..." && \
 	docker restart frontend
 
-stop:
+down:
 	@echo "Stopping frontend container..." && \
 	docker stop frontend

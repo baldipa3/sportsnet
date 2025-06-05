@@ -1,3 +1,3 @@
 export const routes = {
-  registerUser: () => "/register_user",
+  registerUser: () => "/users/register",
 };
