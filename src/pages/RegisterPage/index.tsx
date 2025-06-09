@@ -20,7 +20,6 @@ const RegisterPage = () => {
     watch,
     handleSubmit,
   } = useForm<IFormInput>();
-
   const watchPassword = watch("password");
   const [serverError, setServerError] = useState<string | null>(null);
   const navigate = useNavigate();

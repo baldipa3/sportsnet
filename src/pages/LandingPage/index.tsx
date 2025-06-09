@@ -1,3 +1,5 @@
+import LoginUser from "./LoginUser";
+
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-[#171717] text-white flex flex-col items-center px-4">
@@ -21,36 +23,7 @@ const LandingPage = () => {
           </button>
         </section>
 
-        {/* Right Section: Login/Register */}
-        <section className="flex-1 bg-gray-800 p-6 rounded-lg shadow-lg">
-          <h3 className="text-2xl font-semibold text-green-400 mb-4">
-            Welcome Back!
-          </h3>
-          <form className="flex flex-col gap-4">
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-400"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-400"
-            />
-            <button
-              type="submit"
-              className="w-full px-4 py-2 bg-green-500 text-white rounded-lg shadow-lg hover:bg-green-600 transition-colors"
-            >
-              Login
-            </button>
-          </form>
-          <p className="text-gray-400 mt-4">
-            Don't have an account?{" "}
-            <a href="/register" className="text-green-400 hover:underline">
-              Register here
-            </a>
-          </p>
-        </section>
+        <LoginUser />
       </main>
 
       <footer className="w-full py-6 border-t border-gray-800 flex flex-col items-center gap-2">
