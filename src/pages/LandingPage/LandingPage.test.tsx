@@ -50,7 +50,7 @@ describe("LoginUser Component", () => {
     vi.clearAllMocks();
     // Set up default behavior for mocks
     mockRegister.mockReturnValue({});
-    mockHandleSubmit.mockImplementation((fn) => (e) => {
+    mockHandleSubmit.mockImplementation((fn) => (e: any) => {
       e?.preventDefault();
       // Call the submit function with test data
       fn({ email: "test@example.com", password: "password123" });
