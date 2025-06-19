@@ -21,7 +21,7 @@ const SportsNavbar = () => {
         {/* Buttons (replace with your actual Buttons component) */}
         <div className="flex gap-4">
           <button className="text-white bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg transition-all">
-            Join
+            Sports
           </button>
           <button className="text-white bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg transition-all">
             Login

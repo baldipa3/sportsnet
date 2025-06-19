@@ -23,3 +23,6 @@ restart:
 down:
 	@echo "Stopping frontend container..." && \
 	docker stop frontend
+test:
+	@echo "Running tests inside Docker..." && \
+	docker exec frontend npx vitest

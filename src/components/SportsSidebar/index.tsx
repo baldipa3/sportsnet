@@ -14,7 +14,7 @@ import type { NavigationItem } from "./types";
 const items: NavigationItem[] = [
   {
     type: "link",
-    label: "Sports",
+    label: "Home",
     icon: FaTrophy,
     path: "/sports",
   },
