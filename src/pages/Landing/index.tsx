@@ -1,6 +1,6 @@
 import LoginUser from "./LoginUser";
 
-const LandingPage = () => {
+const Landing = () => {
   return (
     <div className="min-h-screen bg-[#171717] text-white flex flex-col items-center px-4">
       <header className="w-full py-6 flex justify-center border-b border-gray-800">
@@ -36,4 +36,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default Landing;

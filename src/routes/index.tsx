@@ -4,20 +4,20 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import LandingPage from "../pages/LandingPage";
+import Landing from "../pages/Landing";
 import Sports from "../pages/Sports";
 import SportShow from "../pages/Sports/Show";
 import PrivateRoute from "./PrivateRoute";
 import AppLayout from "../components/AppLayout";
-import RegisterPage from "../pages/RegisterPage";
+import Register from "../pages/Register";
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
         {/* Public Route */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Private Routes Wrapped in AppLayout */}
         <Route
