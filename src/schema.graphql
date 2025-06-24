@@ -1,0 +1,14 @@
+schema {
+  query: RootQueryType
+}
+
+type Sport {
+  id: ID
+  name: String
+  code: String
+}
+
+type RootQueryType {
+  "Get all sports"
+  allSports: [Sport!]!
+}

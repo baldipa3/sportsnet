@@ -21,6 +21,14 @@ const AppRoutes = () => {
 
         {/* Private Routes Wrapped in AppLayout */}
         <Route
+          path="sports"
+          element={
+            <PrivateRoute>
+              <Sports />
+            </PrivateRoute>
+          }
+        />
+        <Route
           element={
             <PrivateRoute>
               <AppLayout />
@@ -28,8 +36,7 @@ const AppRoutes = () => {
           }
         >
           {/* Nested Private Routes */}
-          <Route path="sports" element={<Sports />} />
-          <Route path="sports/:id" element={<SportShow />} />
+          <Route path="sports/:code" element={<SportShow />} />
 
           {/* Default Redirect for Private Routes */}
           <Route path="*" element={<Navigate to="sports" />} />

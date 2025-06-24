@@ -23,6 +23,17 @@ restart:
 down:
 	@echo "Stopping frontend container..." && \
 	docker stop frontend
+
 test:
 	@echo "Running tests inside Docker..." && \
 	docker exec frontend npx vitest
+	
+update-schema:
+	@echo "Generating GraphQL schema..." && \
+	docker exec backend mix absinthe.schema.sdl --schema SportsnetApi.Schema 2>/dev/null && \
+	docker cp backend:/app/schema.graphql ./src/schema.graphql && \
+	docker exec backend rm /app/schema.graphql && \
+	echo "Schema copied to src/schema.graphql"
+
+relay-compile:
+	docker exec frontend npx relay-compiler
