@@ -30,7 +30,7 @@ test:
 	
 update-schema:
 	@echo "Generating GraphQL schema..." && \
-	docker exec backend mix absinthe.schema.sdl --schema SportsnetApi.Schema 2>/dev/null && \
+	docker exec backend mix absinthe.schema.sdl --schema SportsnetApiWeb.Schema 2>/dev/null && \
 	docker cp backend:/app/schema.graphql ./src/schema.graphql && \
 	docker exec backend rm /app/schema.graphql && \
 	echo "Schema copied to src/schema.graphql"
