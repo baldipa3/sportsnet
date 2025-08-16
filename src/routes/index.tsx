@@ -5,11 +5,12 @@ import {
   Navigate,
 } from "react-router-dom";
 import Landing from "../pages/Landing";
-import Sports from "../pages/Sports";
-import SportShow from "../pages/Sports/Show";
+import SportShow from "../pages/Sports/show";
 import PrivateRoute from "./PrivateRoute";
 import AppLayout from "../components/AppLayout";
 import Register from "../pages/Register";
+import CitySelection from "../pages/Onboarding/CitySelection";
+import SportSelection from "../pages/Onboarding/SportSelection";
 
 const AppRoutes = () => {
   return (
@@ -21,10 +22,18 @@ const AppRoutes = () => {
 
         {/* Private Routes Wrapped in AppLayout */}
         <Route
-          path="sports"
+          path="onboarding/city"
           element={
             <PrivateRoute>
-              <Sports />
+              <CitySelection />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="onboarding/sport"
+          element={
+            <PrivateRoute>
+              <SportSelection />
             </PrivateRoute>
           }
         />
@@ -36,10 +45,16 @@ const AppRoutes = () => {
           }
         >
           {/* Nested Private Routes */}
-          <Route path="sports/:code" element={<SportShow />} />
+          <Route
+            path="sports/:sport_slug/cities/:city_slug"
+            element={<SportShow />}
+          />
 
           {/* Default Redirect for Private Routes */}
-          <Route path="*" element={<Navigate to="sports" />} />
+          <Route
+            path="*"
+            element={<Navigate to="sports/:sport_slug/cities/:city_slug" />}
+          />
         </Route>
       </Routes>
     </Router>

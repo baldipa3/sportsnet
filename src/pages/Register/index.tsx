@@ -41,7 +41,7 @@ const RegisterPage = () => {
 
         if (token) {
           localStorage.setItem("authToken", token);
-          navigate("/sports");
+          navigate("/onboarding/city");
         } else {
           console.error("No token received from server");
         }

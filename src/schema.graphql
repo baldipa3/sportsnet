@@ -1,14 +1,55 @@
 schema {
+  mutation: RootMutationType
   query: RootQueryType
+}
+
+type Country {
+  id: ID
+  name: String
+  code: String
+  cities: [City!]!
+}
+
+type City {
+  id: ID
+  name: String
 }
 
 type Sport {
   id: ID
   name: String
-  code: String
+  slug: String
+}
+
+type Media {
+  id: ID
+  url: String
+  mediaType: String
+  filename: String
+  position: Int
+}
+
+type Post {
+  id: ID
+  caption: String
+  userId: ID
+  sportId: ID
+  cityId: ID
+  media: [Media]
 }
 
 type RootQueryType {
   "Get all sports"
   allSports: [Sport!]!
+
+  "Get all countries with their cities"
+  countriesWithCities: [Country!]!
 }
+
+type RootMutationType {
+  "Create a new post with optional media files"
+  createPost(caption: String!, userId: ID!, sportId: ID!, cityId: ID!, media: [Upload!]): Post
+}
+
+"Represents an uploaded file."
+scalar Upload

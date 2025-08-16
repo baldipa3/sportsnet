@@ -25,10 +25,16 @@ const LoginUser = () => {
       .post(routes.loginUser(), params)
       .then(function (response) {
         const token = response.data?.data?.token;
+        const onboarding_required = response.data?.data?.onboarding_required;
+        const city_slug = response.data?.data?.city_slug;
+        const default_sport_slug = response.data?.data?.default_sport_slug;
 
-        if (token) {
+        if (token && onboarding_required) {
           localStorage.setItem("authToken", token);
-          navigate("/sports");
+          navigate("/onboarding/city");
+        } else if (token && !onboarding_required) {
+          localStorage.setItem("authToken", token);
+          navigate(`/sports/${default_sport_slug}/city/${city_slug}`);
         } else {
           console.error("No token received from server");
         }

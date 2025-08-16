@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<524a29dea5d9f1274ac3ea9b7c59b6ce>>
+ * @generated SignedSource<<b4e9be90b96ecf2830cd5d11c21c275c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,17 +9,17 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from 'relay-runtime';
-export type SportsListQuery$variables = Record<PropertyKey, never>;
-export type SportsListQuery$data = {
+export type SportSelectionListQuery$variables = Record<PropertyKey, never>;
+export type SportSelectionListQuery$data = {
   readonly allSports: ReadonlyArray<{
-    readonly code: string | null | undefined;
     readonly id: string | null | undefined;
     readonly name: string | null | undefined;
+    readonly slug: string | null | undefined;
   }>;
 };
-export type SportsListQuery = {
-  response: SportsListQuery$data;
-  variables: SportsListQuery$variables;
+export type SportSelectionListQuery = {
+  response: SportSelectionListQuery$data;
+  variables: SportSelectionListQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -50,7 +50,7 @@ var v0 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "code",
+        "name": "slug",
         "storageKey": null
       }
     ],
@@ -62,7 +62,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "SportsListQuery",
+    "name": "SportSelectionListQuery",
     "selections": (v0/*: any*/),
     "type": "RootQueryType",
     "abstractKey": null
@@ -71,20 +71,20 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "SportsListQuery",
+    "name": "SportSelectionListQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "af3674c28324f8e6689e62301d2689e9",
+    "cacheID": "5c3b1cfdec8b12bd193dddf50c46073a",
     "id": null,
     "metadata": {},
-    "name": "SportsListQuery",
+    "name": "SportSelectionListQuery",
     "operationKind": "query",
-    "text": "query SportsListQuery {\n  allSports {\n    id\n    name\n    code\n  }\n}\n"
+    "text": "query SportSelectionListQuery {\n  allSports {\n    id\n    name\n    slug\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "fba26b52c2862c558d50449b5ef4f12d";
+(node as any).hash = "3f1168705fbfee67831de32768b06ea6";
 
 export default node;
