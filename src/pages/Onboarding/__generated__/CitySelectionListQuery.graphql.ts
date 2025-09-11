@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<223f02f2c637c31a4a78ed8b93f5680e>>
+ * @generated SignedSource<<9bddcc86ede5825bcc6da8e0ced5a762>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,12 +13,12 @@ export type CitySelectionListQuery$variables = Record<PropertyKey, never>;
 export type CitySelectionListQuery$data = {
   readonly countriesWithCities: ReadonlyArray<{
     readonly cities: ReadonlyArray<{
-      readonly id: string | null | undefined;
-      readonly name: string | null | undefined;
+      readonly id: string;
+      readonly name: string;
     }>;
-    readonly code: string | null | undefined;
-    readonly id: string | null | undefined;
-    readonly name: string | null | undefined;
+    readonly code: string;
+    readonly id: string;
+    readonly name: string;
   }>;
 };
 export type CitySelectionListQuery = {

@@ -26,17 +26,22 @@ const LoginUser = () => {
       .then(function (response) {
         const token = response.data?.data?.token;
         const onboarding_required = response.data?.data?.onboarding_required;
-        const city_slug = response.data?.data?.city_slug;
-        const default_sport_slug = response.data?.data?.default_sport_slug;
+
+        const citySlug = response.data?.data?.city_slug;
+        const sportSlug = response.data?.data?.default_sport_slug;
 
         if (token && onboarding_required) {
           localStorage.setItem("authToken", token);
+
           navigate("/onboarding/city");
-        } else if (token && !onboarding_required) {
+        } else if (token && !onboarding_required && citySlug && sportSlug) {
           localStorage.setItem("authToken", token);
-          navigate(`/sports/${default_sport_slug}/city/${city_slug}`);
+
+          navigate(`/sports/${sportSlug}/cities/${citySlug}`);
         } else {
           console.error("No token received from server");
+
+          navigate("/");
         }
       })
       .catch(function (error) {

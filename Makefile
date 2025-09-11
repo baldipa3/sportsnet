@@ -7,10 +7,13 @@
 ARGS=$(filter-out $@,$(MAKECMDGOALS))
 
 npm:
+	docker exec frontend npm $(ARGS)
+
+npm-install:
 	@echo "Installing Node.js dependencies inside Docker..." && \
-	docker exec frontend npm $(ARGS) && \
+	docker exec frontend npm install && \
 	echo "Installing Node.js dependencies locally..." && \
-	npm $(ARGS)
+	npm install
 
 up:
 	@echo "Starting frontend container..." && \

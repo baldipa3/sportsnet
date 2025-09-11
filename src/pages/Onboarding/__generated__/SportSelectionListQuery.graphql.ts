@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b4e9be90b96ecf2830cd5d11c21c275c>>
+ * @generated SignedSource<<66b25f6b06cdc683d5f85284222fa38f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,9 +12,9 @@ import { ConcreteRequest } from 'relay-runtime';
 export type SportSelectionListQuery$variables = Record<PropertyKey, never>;
 export type SportSelectionListQuery$data = {
   readonly allSports: ReadonlyArray<{
-    readonly id: string | null | undefined;
-    readonly name: string | null | undefined;
-    readonly slug: string | null | undefined;
+    readonly id: string;
+    readonly name: string;
+    readonly slug: string;
   }>;
 };
 export type SportSelectionListQuery = {

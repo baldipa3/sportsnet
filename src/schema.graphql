@@ -4,21 +4,31 @@ schema {
 }
 
 type Country {
-  id: ID
-  name: String
-  code: String
+  id: ID!
+  name: String!
+  code: String!
   cities: [City!]!
 }
 
 type City {
-  id: ID
-  name: String
+  id: ID!
+  name: String!
+  slug: String!
 }
 
 type Sport {
-  id: ID
-  name: String
-  slug: String
+  id: ID!
+  name: String!
+  slug: String!
+}
+
+type User {
+  name: String!
+  surname: String!
+  email: String!
+  id: ID!
+  city: City
+  defaultSport: Sport
 }
 
 type Media {
@@ -49,6 +59,9 @@ type RootQueryType {
 type RootMutationType {
   "Create a new post with optional media files"
   createPost(caption: String!, userId: ID!, sportId: ID!, cityId: ID!, media: [Upload!]): Post
+
+  "Updates user city"
+  completeUserOnboarding(cityId: ID!, defaultSportId: ID!): User
 }
 
 "Represents an uploaded file."

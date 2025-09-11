@@ -35,8 +35,7 @@ const CitySelection: React.FC = () => {
 
   const handleCitySelection = async (city: City): Promise<void> => {
     try {
-      console.log("Selected:", selectedCountry?.name, city.name);
-      navigate("/onboarding/sport");
+      navigate("/onboarding/sport", { state: { cityId: city.id } });
     } catch (error) {
       console.error("Failed to save city selection:", error);
     }
