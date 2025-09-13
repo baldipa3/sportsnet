@@ -29,6 +29,8 @@ const LoginUser = () => {
 
         const citySlug = response.data?.data?.city_slug;
         const sportSlug = response.data?.data?.default_sport_slug;
+        const cityId = response.data?.data?.city_id;
+        const sportId = response.data?.data?.default_sport_id;
 
         if (token && onboarding_required) {
           localStorage.setItem("authToken", token);
@@ -37,7 +39,9 @@ const LoginUser = () => {
         } else if (token && !onboarding_required && citySlug && sportSlug) {
           localStorage.setItem("authToken", token);
 
-          navigate(`/sports/${sportSlug}/cities/${citySlug}`);
+          navigate(`/sports/${sportSlug}/cities/${citySlug}`, {
+            state: { cityId: cityId, sportId: sportId },
+          });
         } else {
           console.error("No token received from server");
 

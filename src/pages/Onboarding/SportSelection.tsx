@@ -65,8 +65,12 @@ const SportSelection = () => {
       onCompleted: (response) => {
         const citySlug = response?.completeUserOnboarding?.city?.slug;
         const sportSlug = response?.completeUserOnboarding?.defaultSport?.slug;
+        const cityId = response?.completeUserOnboarding?.city?.id;
+        const sportId = response?.completeUserOnboarding?.defaultSport?.id;
 
-        navigate(`/sports/${sportSlug}/cities/${citySlug}`);
+        navigate(`/sports/${sportSlug}/cities/${citySlug}`, {
+          state: { cityId: cityId, sportId: sportId },
+        });
         toast.success("Onboarding completed successfully!");
       },
       onError: () => {

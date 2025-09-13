@@ -3,49 +3,90 @@ schema {
   query: RootQueryType
 }
 
-type Country {
+interface Node {
+  "The ID of the object."
   id: ID!
+}
+
+type Country implements Node {
+  "The ID of an object"
+  id: ID!
+
   name: String!
+
   code: String!
+
   cities: [City!]!
 }
 
-type City {
+type City implements Node {
+  "The ID of an object"
   id: ID!
+
   name: String!
+
   slug: String!
 }
 
-type Sport {
+type Sport implements Node {
+  "The ID of an object"
   id: ID!
+
   name: String!
+
   slug: String!
 }
 
-type User {
+type User implements Node {
+  "The ID of an object"
+  id: ID!
+
   name: String!
+
   surname: String!
+
   email: String!
-  id: ID!
+
   city: City
+
   defaultSport: Sport
 }
 
-type Media {
-  id: ID
+type Media implements Node {
+  "The ID of an object"
+  id: ID!
+
   url: String
+
   mediaType: String
+
   filename: String
+
   position: Int
 }
 
-type Post {
-  id: ID
+type Comment implements Node {
+  "The ID of an object"
+  id: ID!
+
+  content: String
+}
+
+type Post implements Node {
+  "The ID of an object"
+  id: ID!
+
   caption: String
+
   userId: ID
+
   sportId: ID
+
   cityId: ID
+
   media: [Media]
+
+  comments: [Comment]
 }
 
 type RootQueryType {
@@ -54,6 +95,9 @@ type RootQueryType {
 
   "Get all countries with their cities"
   countriesWithCities: [Country!]!
+
+  "Get posts for a given city\/sport combination"
+  postsByCityAndSport(cityId: ID, sportId: ID): [Post!]!
 }
 
 type RootMutationType {
