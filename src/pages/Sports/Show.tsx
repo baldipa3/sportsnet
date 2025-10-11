@@ -14,6 +14,8 @@ export default function SportPage() {
           id
           caption
           insertedAt
+          likesCount
+          likedByCurrentUser
           comments {
             content
           }

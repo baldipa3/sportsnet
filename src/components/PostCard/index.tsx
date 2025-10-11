@@ -1,10 +1,99 @@
+import { useState } from "react";
 import { FaHeart, FaComment } from "react-icons/fa";
 import { GiSoccerKick } from "react-icons/gi";
 import { type PostProp } from "../../types/post";
-import MediaCarousel from "../MediaCarousel";
+import MediaCarousel from "./MediaCarousel";
+import { graphql, useMutation } from "react-relay";
+import { type PostCardLikeMutation } from "./__generated__/PostCardLikeMutation.graphql";
+import { type PostCardUnlikeMutation } from "./__generated__/PostCardUnlikeMutation.graphql";
 
 const PostCard = ({ post }: PostProp) => {
   console.log(post);
+
+  const [isLiked, setIsLiked] = useState(post.likedByCurrentUser ?? false);
+  const [likesCount, setLikesCount] = useState(post.likesCount);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [commitLikeMutation] = useMutation<PostCardLikeMutation>(graphql`
+    mutation PostCardLikeMutation($postId: ID!) {
+      likePost(postId: $postId) {
+        postId
+        likesCount
+      }
+    }
+  `);
+
+  const [commitUnlikeMutation] = useMutation<PostCardUnlikeMutation>(
+    graphql`
+      mutation PostCardUnlikeMutation($postId: ID!) {
+        unlikePost(postId: $postId) {
+          postId
+          likesCount
+        }
+      }
+    `
+  );
+
+  const handleLikeToggle = async () => {
+    if (isLoading) return;
+
+    const previousIsLiked = isLiked;
+    const previousLikesCount = likesCount;
+
+    setIsLiked(!isLiked);
+    setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
+    setIsLoading(true);
+
+    try {
+      if (isLiked) {
+        await unlikePost(post.id, previousLikesCount);
+      } else {
+        await likePost(post.id, previousLikesCount);
+      }
+    } catch (error) {
+      console.error("Error toggling like:", error);
+      setIsLiked(previousIsLiked);
+      setLikesCount(previousLikesCount);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const likePost = async (postId: string, previousLikesCount: number) => {
+    commitLikeMutation({
+      variables: {
+        postId: postId,
+      },
+      onCompleted: (response) => {
+        const likesCount = response?.likePost?.likesCount || previousLikesCount;
+
+        setLikesCount(likesCount);
+      },
+      onError: () => {
+        setIsLiked(false);
+        setLikesCount(previousLikesCount);
+      },
+    });
+  };
+
+  const unlikePost = async (postId: string, previousLikesCount: number) => {
+    commitUnlikeMutation({
+      variables: {
+        postId: postId,
+      },
+      onCompleted: (response) => {
+        const likesCount =
+          response?.unlikePost?.likesCount || previousLikesCount;
+
+        setLikesCount(likesCount);
+      },
+      onError: () => {
+        setIsLiked(false);
+        setLikesCount(previousLikesCount);
+      },
+    });
+  };
+
   return (
     <div className="w-full max-w-screen-lg px-4 mt-4">
       <div
@@ -24,16 +113,6 @@ const PostCard = ({ post }: PostProp) => {
             </span>
           </div>
         </div>
-        {/* Card Image */}
-        {/* {post.picture && (
-          <div className="relative w-full h-72 overflow-hidden">
-            <img
-              src={post.picture}
-              alt={post.caption}
-              className="w-full h-full object-cover rounded-t-xl"
-            />
-          </div>
-        )}    */}
 
         <MediaCarousel post={post} />
 
@@ -43,11 +122,18 @@ const PostCard = ({ post }: PostProp) => {
 
           {/* Card Footer */}
           <div className="flex items-center gap-4">
-            {/* Likes */}
-            <div className="flex items-center gap-1 text-gray-400 hover:text-white transition-all">
-              <FaHeart className="w-5 h-5" />
-              {/* <span className="text-sm font-bold">{post.likes}</span> */}
-            </div>
+            <button
+              onClick={handleLikeToggle}
+              disabled={isLoading}
+              className="flex items-center gap-1 text-gray-400 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <FaHeart
+                className={`w-5 h-5 transition-colors cursor-pointer ${
+                  post.likesCount > 0 ? "text-red-500" : ""
+                }`}
+              />
+              <span className="text-sm font-bold">{likesCount}</span>
+            </button>
 
             {/* Comments */}
             <div className="flex items-center gap-1 text-gray-400 hover:text-white transition-all">

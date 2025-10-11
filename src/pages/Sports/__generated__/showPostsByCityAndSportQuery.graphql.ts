@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d86c937435c7433e9903a41eb7a7196e>>
+ * @generated SignedSource<<d915157d79c0030be10f2aeaa94a0815>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -21,6 +21,8 @@ export type showPostsByCityAndSportQuery$data = {
     } | null | undefined> | null | undefined;
     readonly id: string;
     readonly insertedAt: any | null | undefined;
+    readonly likedByCurrentUser: boolean | null | undefined;
+    readonly likesCount: number;
     readonly media: ReadonlyArray<{
       readonly url: string | null | undefined;
     } | null | undefined> | null | undefined;
@@ -81,10 +83,24 @@ v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "content",
+  "name": "likesCount",
   "storageKey": null
 },
 v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "likedByCurrentUser",
+  "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "content",
+  "storageKey": null
+},
+v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -109,6 +125,8 @@ return {
           (v2/*: any*/),
           (v3/*: any*/),
           (v4/*: any*/),
+          (v5/*: any*/),
+          (v6/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -117,7 +135,7 @@ return {
             "name": "comments",
             "plural": true,
             "selections": [
-              (v5/*: any*/)
+              (v7/*: any*/)
             ],
             "storageKey": null
           },
@@ -129,7 +147,7 @@ return {
             "name": "media",
             "plural": true,
             "selections": [
-              (v6/*: any*/)
+              (v8/*: any*/)
             ],
             "storageKey": null
           }
@@ -157,6 +175,8 @@ return {
           (v2/*: any*/),
           (v3/*: any*/),
           (v4/*: any*/),
+          (v5/*: any*/),
+          (v6/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -165,7 +185,7 @@ return {
             "name": "comments",
             "plural": true,
             "selections": [
-              (v5/*: any*/),
+              (v7/*: any*/),
               (v2/*: any*/)
             ],
             "storageKey": null
@@ -178,7 +198,7 @@ return {
             "name": "media",
             "plural": true,
             "selections": [
-              (v6/*: any*/),
+              (v8/*: any*/),
               (v2/*: any*/)
             ],
             "storageKey": null
@@ -189,16 +209,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3be62b320f75a7b512027c22fa9ad755",
+    "cacheID": "b07517407a5f318e17b35e2f45afa551",
     "id": null,
     "metadata": {},
     "name": "showPostsByCityAndSportQuery",
     "operationKind": "query",
-    "text": "query showPostsByCityAndSportQuery(\n  $cityId: ID!\n  $sportId: ID!\n) {\n  postsByCityAndSport(cityId: $cityId, sportId: $sportId) {\n    id\n    caption\n    insertedAt\n    comments {\n      content\n      id\n    }\n    media {\n      url\n      id\n    }\n  }\n}\n"
+    "text": "query showPostsByCityAndSportQuery(\n  $cityId: ID!\n  $sportId: ID!\n) {\n  postsByCityAndSport(cityId: $cityId, sportId: $sportId) {\n    id\n    caption\n    insertedAt\n    likesCount\n    likedByCurrentUser\n    comments {\n      content\n      id\n    }\n    media {\n      url\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "51f223d5ecc0b2398ed9be60a9eb20fe";
+(node as any).hash = "edabbc36142ceacf937f82797b6bb552";
 
 export default node;
