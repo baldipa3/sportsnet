@@ -2,11 +2,9 @@ import { useState } from "react";
 import { FaEdit, FaCopy, FaArchive, FaSignOutAlt } from "react-icons/fa";
 import { axiosInstance } from "../../services/apiBase";
 import { routes } from "../../services/apiRoutes";
-import { useNavigate } from "react-router-dom";
 
 const UserMenu = () => {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     const token = localStorage.getItem("authToken");
@@ -17,13 +15,13 @@ const UserMenu = () => {
       })
       .then(function () {
         localStorage.removeItem("authToken");
-        navigate("/");
+        window.location.href = "/";
       })
       .catch(function (error) {
         console.error("Logout error:", error);
         // Even if logout fails on server, clear local token and redirect
         localStorage.removeItem("authToken");
-        navigate("/");
+        window.location.href = "/";
       });
   };
 

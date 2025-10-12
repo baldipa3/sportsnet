@@ -122,18 +122,22 @@ const PostCard = ({ post }: PostProp) => {
 
           {/* Card Footer */}
           <div className="flex items-center gap-4">
-            <button
-              onClick={handleLikeToggle}
-              disabled={isLoading}
-              className="flex items-center gap-1 text-gray-400 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <FaHeart
-                className={`w-5 h-5 transition-colors cursor-pointer ${
-                  post.likesCount > 0 ? "text-red-500" : ""
-                }`}
-              />
-              <span className="text-sm font-bold">{likesCount}</span>
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={handleLikeToggle}
+                disabled={isLoading}
+                className="flex items-center gap-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <FaHeart
+                  className={`w-5 h-5 transition-colors cursor-pointer ${
+                    post.likesCount > 0 ? "text-red-500" : ""
+                  }`}
+                />
+              </button>
+              <span className="text-sm font-bold hover:text-white text-gray-400">
+                {likesCount}
+              </span>
+            </div>
 
             {/* Comments */}
             <div className="flex items-center gap-1 text-gray-400 hover:text-white transition-all">
