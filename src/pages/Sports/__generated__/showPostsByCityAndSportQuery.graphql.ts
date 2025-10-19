@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d915157d79c0030be10f2aeaa94a0815>>
+ * @generated SignedSource<<4b17f720a8ffb3d0ab5523efa78b85b6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,8 +10,8 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 export type showPostsByCityAndSportQuery$variables = {
-  cityId: string;
-  sportId: string;
+  citySlug: string;
+  sportSlug: string;
 };
 export type showPostsByCityAndSportQuery$data = {
   readonly postsByCityAndSport: ReadonlyArray<{
@@ -38,24 +38,24 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "cityId"
+    "name": "citySlug"
   },
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "sportId"
+    "name": "sportSlug"
   }
 ],
 v1 = [
   {
     "kind": "Variable",
-    "name": "cityId",
-    "variableName": "cityId"
+    "name": "citySlug",
+    "variableName": "citySlug"
   },
   {
     "kind": "Variable",
-    "name": "sportId",
-    "variableName": "sportId"
+    "name": "sportSlug",
+    "variableName": "sportSlug"
   }
 ],
 v2 = {
@@ -209,16 +209,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "b07517407a5f318e17b35e2f45afa551",
+    "cacheID": "4bb4aa42f3570d91ff0daf5ef04756d1",
     "id": null,
     "metadata": {},
     "name": "showPostsByCityAndSportQuery",
     "operationKind": "query",
-    "text": "query showPostsByCityAndSportQuery(\n  $cityId: ID!\n  $sportId: ID!\n) {\n  postsByCityAndSport(cityId: $cityId, sportId: $sportId) {\n    id\n    caption\n    insertedAt\n    likesCount\n    likedByCurrentUser\n    comments {\n      content\n      id\n    }\n    media {\n      url\n      id\n    }\n  }\n}\n"
+    "text": "query showPostsByCityAndSportQuery(\n  $citySlug: String!\n  $sportSlug: String!\n) {\n  postsByCityAndSport(citySlug: $citySlug, sportSlug: $sportSlug) {\n    id\n    caption\n    insertedAt\n    likesCount\n    likedByCurrentUser\n    comments {\n      content\n      id\n    }\n    media {\n      url\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "edabbc36142ceacf937f82797b6bb552";
+(node as any).hash = "d73cc5d66502ba53ba98190fdb888932";
 
 export default node;

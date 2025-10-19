@@ -108,7 +108,7 @@ type RootQueryType {
   countriesWithCities: [Country!]!
 
   "Get posts for a given city\/sport combination"
-  postsByCityAndSport(cityId: ID, sportId: ID): [Post!]!
+  postsByCityAndSport(citySlug: String, sportSlug: String): [Post!]!
 }
 
 type RootMutationType {

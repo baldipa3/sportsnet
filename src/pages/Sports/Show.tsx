@@ -1,16 +1,22 @@
 import PostCard from "../../components/PostCard";
-import { useLocation } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { type showPostsByCityAndSportQuery } from "./__generated__/showPostsByCityAndSportQuery.graphql";
 import { graphql, useLazyLoadQuery } from "react-relay";
 
 export default function SportPage() {
-  const location = useLocation();
-  const { cityId, sportId } = location.state || {};
+  const params = useParams<{ sport_slug: string; city_slug: string }>();
+
+  if (!params.sport_slug || !params.city_slug) {
+    return <Navigate to="/" replace />;
+  }
 
   const data = useLazyLoadQuery<showPostsByCityAndSportQuery>(
     graphql`
-      query showPostsByCityAndSportQuery($cityId: ID!, $sportId: ID!) {
-        postsByCityAndSport(cityId: $cityId, sportId: $sportId) {
+      query showPostsByCityAndSportQuery(
+        $citySlug: String!
+        $sportSlug: String!
+      ) {
+        postsByCityAndSport(citySlug: $citySlug, sportSlug: $sportSlug) {
           id
           caption
           insertedAt
@@ -26,8 +32,8 @@ export default function SportPage() {
       }
     `,
     {
-      cityId: cityId,
-      sportId: sportId,
+      citySlug: params.city_slug,
+      sportSlug: params.sport_slug,
     }
   );
 
