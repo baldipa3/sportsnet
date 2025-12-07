@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<649503fb658af56f232e1881fe0ae7b6>>
+ * @generated SignedSource<<8c0d30364fc5e8dcff0cc97b207a4168>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,12 +10,16 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 export type PostCardLikeMutation$variables = {
-  postId: string;
+  doesLike: boolean;
+  id: string;
 };
 export type PostCardLikeMutation$data = {
   readonly likePost: {
-    readonly likesCount: number;
-    readonly postId: string;
+    readonly post: {
+      readonly id: string;
+      readonly likedByCurrentUser: boolean | null | undefined;
+      readonly likesCount: number;
+    };
   } | null | undefined;
 };
 export type PostCardLikeMutation = {
@@ -24,21 +28,29 @@ export type PostCardLikeMutation = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "postId"
-  }
-],
-v1 = [
+var v0 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "doesLike"
+},
+v1 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "id"
+},
+v2 = [
   {
     "alias": null,
     "args": [
       {
         "kind": "Variable",
-        "name": "postId",
-        "variableName": "postId"
+        "name": "doesLike",
+        "variableName": "doesLike"
+      },
+      {
+        "kind": "Variable",
+        "name": "id",
+        "variableName": "id"
       }
     ],
     "concreteType": "LikePostPayload",
@@ -49,15 +61,33 @@ v1 = [
       {
         "alias": null,
         "args": null,
-        "kind": "ScalarField",
-        "name": "postId",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "likesCount",
+        "concreteType": "Post",
+        "kind": "LinkedField",
+        "name": "post",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "likesCount",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "likedByCurrentUser",
+            "storageKey": null
+          }
+        ],
         "storageKey": null
       }
     ],
@@ -66,32 +96,38 @@ v1 = [
 ];
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/)
+    ],
     "kind": "Fragment",
     "metadata": null,
     "name": "PostCardLikeMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "RootMutationType",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v1/*: any*/),
+      (v0/*: any*/)
+    ],
     "kind": "Operation",
     "name": "PostCardLikeMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "643f68adfce90e0e5a3e06ab9ed9396c",
+    "cacheID": "787abb88fed3625f29c0a81688e02000",
     "id": null,
     "metadata": {},
     "name": "PostCardLikeMutation",
     "operationKind": "mutation",
-    "text": "mutation PostCardLikeMutation(\n  $postId: ID!\n) {\n  likePost(postId: $postId) {\n    postId\n    likesCount\n  }\n}\n"
+    "text": "mutation PostCardLikeMutation(\n  $id: ID!\n  $doesLike: Boolean!\n) {\n  likePost(id: $id, doesLike: $doesLike) {\n    post {\n      id\n      likesCount\n      likedByCurrentUser\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "fb6800edaf64a0603c6662840d7dea73";
+(node as any).hash = "99d0d6d63efae1c6d8246c23864d0453";
 
 export default node;

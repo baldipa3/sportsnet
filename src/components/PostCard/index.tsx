@@ -1,98 +1,51 @@
-import { useState } from "react";
 import { FaHeart, FaComment } from "react-icons/fa";
 import { GiSoccerKick } from "react-icons/gi";
 import { type PostProp } from "../../types/post";
 import MediaCarousel from "./MediaCarousel";
-import { graphql, useMutation } from "react-relay";
+import { graphql, useMutation, useFragment } from "react-relay";
 import { type PostCardLikeMutation } from "./__generated__/PostCardLikeMutation.graphql";
-import { type PostCardUnlikeMutation } from "./__generated__/PostCardUnlikeMutation.graphql";
 
-const PostCard = ({ post }: PostProp) => {
-  console.log(post);
+const PostCardFragment = graphql`
+  fragment PostCardFragment on Post {
+    id
+    caption
+    insertedAt
+    likesCount
+    likedByCurrentUser
+    comments {
+      content
+    }
+    media {
+      url
+    }
+  }
+`;
 
-  const [isLiked, setIsLiked] = useState(post.likedByCurrentUser ?? false);
-  const [likesCount, setLikesCount] = useState(post.likesCount);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [commitLikeMutation] = useMutation<PostCardLikeMutation>(graphql`
-    mutation PostCardLikeMutation($postId: ID!) {
-      likePost(postId: $postId) {
-        postId
+const PostCardLikeMutation = graphql`
+  mutation PostCardLikeMutation($id: ID!, $doesLike: Boolean!) {
+    likePost(id: $id, doesLike: $doesLike) {
+      post {
+        id
         likesCount
+        likedByCurrentUser
       }
     }
-  `);
+  }
+`;
 
-  const [commitUnlikeMutation] = useMutation<PostCardUnlikeMutation>(
-    graphql`
-      mutation PostCardUnlikeMutation($postId: ID!) {
-        unlikePost(postId: $postId) {
-          postId
-          likesCount
-        }
-      }
-    `
-  );
+const PostCard = ({ data }: PostProp) => {
+  const post = useFragment(PostCardFragment, data);
+  const [commitMutation, isMutationInFlight] =
+    useMutation(PostCardLikeMutation);
 
-  const handleLikeToggle = async () => {
-    if (isLoading) return;
-
-    const previousIsLiked = isLiked;
-    const previousLikesCount = likesCount;
-
-    setIsLiked(!isLiked);
-    setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
-    setIsLoading(true);
-
-    try {
-      if (isLiked) {
-        await unlikePost(post.id, previousLikesCount);
-      } else {
-        await likePost(post.id, previousLikesCount);
-      }
-    } catch (error) {
-      console.error("Error toggling like:", error);
-      setIsLiked(previousIsLiked);
-      setLikesCount(previousLikesCount);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const likePost = async (postId: string, previousLikesCount: number) => {
-    commitLikeMutation({
+  function onLikeButtonClicked() {
+    commitMutation({
       variables: {
-        postId: postId,
-      },
-      onCompleted: (response) => {
-        const likesCount = response?.likePost?.likesCount || previousLikesCount;
-
-        setLikesCount(likesCount);
-      },
-      onError: () => {
-        setIsLiked(false);
-        setLikesCount(previousLikesCount);
+        id: post.id,
+        doesLike: !post.likedByCurrentUser,
       },
     });
-  };
-
-  const unlikePost = async (postId: string, previousLikesCount: number) => {
-    commitUnlikeMutation({
-      variables: {
-        postId: postId,
-      },
-      onCompleted: (response) => {
-        const likesCount =
-          response?.unlikePost?.likesCount || previousLikesCount;
-
-        setLikesCount(likesCount);
-      },
-      onError: () => {
-        setIsLiked(false);
-        setLikesCount(previousLikesCount);
-      },
-    });
-  };
+  }
 
   return (
     <div className="w-full max-w-screen-lg px-4 mt-4">
@@ -124,18 +77,18 @@ const PostCard = ({ post }: PostProp) => {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
               <button
-                onClick={handleLikeToggle}
-                disabled={isLoading}
+                onClick={onLikeButtonClicked}
+                disabled={isMutationInFlight}
                 className="flex items-center gap-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <FaHeart
                   className={`w-5 h-5 transition-colors cursor-pointer ${
-                    post.likesCount > 0 ? "text-red-500" : ""
+                    post.likedByCurrentUser ? "text-green-500" : "text-gray-500"
                   }`}
                 />
               </button>
               <span className="text-sm font-bold hover:text-white text-gray-400">
-                {likesCount}
+                {post.likesCount}
               </span>
             </div>
 

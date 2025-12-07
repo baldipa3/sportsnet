@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { FaChevronLeft, FaChevronRight, FaPlay, FaPause } from "react-icons/fa";
-import { type PostProp } from "../../types/post";
+import { type PostCardFragment$data } from "../PostCard/__generated__/PostCardFragment.graphql";
 
-// Extract the media type from your PostProp
-type PostFromQuery = PostProp["post"];
-type MediaItem = NonNullable<PostFromQuery["media"]>[0];
+interface MediaCarouselProps {
+  post: PostCardFragment$data;
+}
 
-const MediaCarousel = ({ post }: PostProp) => {
+type MediaItem = NonNullable<PostCardFragment$data["media"]>[number];
+
+const MediaCarousel = ({ post }: MediaCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
-  // Memoize valid media - DON'T filter out failed images here to prevent index jumping
   const validMedia = useMemo(() => {
     if (!post.media || post.media.length === 0) {
       return [];
@@ -26,9 +27,8 @@ const MediaCarousel = ({ post }: PostProp) => {
         typeof item.url === "string" &&
         item.url.trim() !== ""
     );
-  }, [post.media]); // Remove failedImages dependency to prevent array changes
+  }, [post.media]);
 
-  // Reset currentIndex if it's out of bounds
   useEffect(() => {
     if (validMedia.length > 0 && currentIndex >= validMedia.length) {
       setCurrentIndex(0);
@@ -46,7 +46,6 @@ const MediaCarousel = ({ post }: PostProp) => {
   const nextSlide = (): void => {
     setCurrentIndex((prev) => {
       const next = (prev + 1) % validMedia.length;
-      console.log("Next:", prev, "->", next, "of", validMedia.length);
       return next;
     });
     setIsVideoPlaying(false);
@@ -55,7 +54,6 @@ const MediaCarousel = ({ post }: PostProp) => {
   const prevSlide = (): void => {
     setCurrentIndex((prev) => {
       const next = (prev - 1 + validMedia.length) % validMedia.length;
-      console.log("Prev:", prev, "->", next, "of", validMedia.length);
       return next;
     });
     setIsVideoPlaying(false);
@@ -63,16 +61,13 @@ const MediaCarousel = ({ post }: PostProp) => {
 
   const goToSlide = (index: number): void => {
     if (index >= 0 && index < validMedia.length) {
-      console.log("Go to slide:", index, "of", validMedia.length);
       setCurrentIndex(index);
       setIsVideoPlaying(false);
     }
   };
 
   const handleImageError = (url: string) => {
-    console.log("Image failed to load:", url);
     setFailedImages((prev) => new Set([...prev, url]));
-    // Don't auto-navigate on error to prevent jumping behavior
   };
 
   const isVideo = (url: string): boolean => {
@@ -99,26 +94,11 @@ const MediaCarousel = ({ post }: PostProp) => {
 
   const currentMedia = validMedia[currentIndex];
 
-  // Extract and validate the current media URL
   const currentMediaUrl = currentMedia?.url;
   const isCurrentMediaFailed = currentMediaUrl
     ? failedImages.has(currentMediaUrl)
     : false;
 
-  console.log(
-    "Render - currentIndex:",
-    currentIndex,
-    "validMedia.length:",
-    validMedia.length,
-    "currentMedia:",
-    currentMedia,
-    "currentMediaUrl:",
-    currentMediaUrl,
-    "isCurrentMediaFailed:",
-    isCurrentMediaFailed
-  );
-
-  // Early return if no current media or no valid URL
   if (!currentMedia || !currentMediaUrl) {
     return (
       <div className="relative w-full bg-gray-900 h-96 flex items-center justify-center">
@@ -129,7 +109,6 @@ const MediaCarousel = ({ post }: PostProp) => {
 
   return (
     <div className="relative w-full bg-black">
-      {/* Main Media Container */}
       <div className="relative w-full h-96 overflow-hidden bg-gray-900">
         {isCurrentMediaFailed ? (
           <div className="w-full h-full bg-gray-800 flex items-center justify-center">
@@ -161,7 +140,6 @@ const MediaCarousel = ({ post }: PostProp) => {
               Your browser does not support the video tag.
             </video>
 
-            {/* Video Play/Pause Overlay */}
             <button
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
@@ -188,12 +166,10 @@ const MediaCarousel = ({ post }: PostProp) => {
             src={currentMediaUrl}
             alt={`Media ${currentIndex + 1}`}
             className="w-full h-full object-cover"
-            onLoad={() => console.log("Image loaded:", currentMediaUrl)}
             onError={() => handleImageError(currentMediaUrl)}
           />
         )}
 
-        {/* Navigation Arrows - Only show if more than 1 media */}
         {validMedia.length > 1 && (
           <>
             <button
@@ -214,7 +190,6 @@ const MediaCarousel = ({ post }: PostProp) => {
           </>
         )}
 
-        {/* Media Counter */}
         {validMedia.length > 1 && (
           <div className="absolute top-4 right-4 bg-black bg-opacity-60 text-white px-3 py-1 rounded-full text-sm z-10">
             {currentIndex + 1} / {validMedia.length}
@@ -227,7 +202,6 @@ const MediaCarousel = ({ post }: PostProp) => {
         </div>
       </div>
 
-      {/* Dots Indicator - Only show if more than 1 media */}
       {validMedia.length > 1 && (
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
           {validMedia.map((_, index) => (

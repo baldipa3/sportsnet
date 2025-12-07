@@ -95,12 +95,32 @@ type Post implements Node {
   likedByCurrentUser: Boolean
 }
 
+type PostConnection {
+  pageInfo: PageInfo!
+  edges: [PostEdge]
+}
+
 type LikePostPayload {
-  postId: ID!
-  likesCount: Int!
+  post: Post!
+}
+
+type SportCityFeed implements Node {
+  "The ID of an object"
+  id: ID!
+
+  sport: Sport!
+
+  city: City!
+
+  posts(after: String, first: Int, before: String, last: Int): PostConnection
 }
 
 type RootQueryType {
+  node(
+    "The ID of an object."
+    id: ID!
+  ): Node
+
   "Get all sports"
   allSports: [Sport!]!
 
@@ -108,21 +128,18 @@ type RootQueryType {
   countriesWithCities: [Country!]!
 
   "Get posts for a given city\/sport combination"
-  postsByCityAndSport(citySlug: String, sportSlug: String): [Post!]!
+  postsByCityAndSport(citySlug: String, sportSlug: String): SportCityFeed!
 }
 
 type RootMutationType {
   "Create a new post with optional media files"
-  createPost(caption: String!, userId: ID!, sportId: ID!, cityId: ID!, media: [Upload!]): Post
+  createPost(caption: String!, sportId: ID!, cityId: ID!, media: [Upload!]): Post
 
   "Updates user city"
   completeUserOnboarding(cityId: ID!, defaultSportId: ID!): User
 
   "Likes a post"
-  likePost(postId: ID!): LikePostPayload
-
-  "Unlikes a post"
-  unlikePost(postId: ID!): LikePostPayload
+  likePost(id: ID!, doesLike: Boolean!): LikePostPayload
 }
 
 """
@@ -135,3 +152,22 @@ scalar DateTime
 
 "Represents an uploaded file."
 scalar Upload
+
+type PageInfo {
+  "When paginating backwards, are there more items?"
+  hasPreviousPage: Boolean!
+
+  "When paginating forwards, are there more items?"
+  hasNextPage: Boolean!
+
+  "When paginating backwards, the cursor to continue."
+  startCursor: String
+
+  "When paginating forwards, the cursor to continue."
+  endCursor: String
+}
+
+type PostEdge {
+  node: Post
+  cursor: String
+}

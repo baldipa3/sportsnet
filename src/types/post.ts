@@ -1,8 +1,16 @@
-import { type showPostsByCityAndSportQuery } from "../pages/Sports/__generated__/showPostsByCityAndSportQuery.graphql";
+import { type PostCardFragment$key } from "../components/PostCard/__generated__/PostCardFragment.graphql";
 
-type PostFromQuery =
-  showPostsByCityAndSportQuery["response"]["postsByCityAndSport"][0];
+type PostLocationContext = {
+  sportId: string;
+  cityId: string;
+};
 
 export interface PostProp {
-  post: PostFromQuery;
+  data: PostCardFragment$key;
+}
+
+export interface CreatePostProp {
+  isOpen: boolean;
+  onClose: () => void;
+  postLocationContext: PostLocationContext;
 }

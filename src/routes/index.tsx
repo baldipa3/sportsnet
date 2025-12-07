@@ -5,7 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Landing from "../pages/Landing";
-import SportShow from "../pages/Sports/show";
+import SportShow from "../pages/Sports";
 import PrivateRoute from "./PrivateRoute";
 import AppLayout from "../components/AppLayout";
 import Register from "../pages/Register";
