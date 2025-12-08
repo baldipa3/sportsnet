@@ -1,5 +1,5 @@
-import PostCard from "../../components/PostCard";
-import CreatePost from "../../components/CreatePost";
+import PostCard from "../../components/posts/PostCard";
+import CreatePost from "../../components/posts/CreatePost";
 import { useParams, Navigate } from "react-router-dom";
 import { type SportsPostsByCityAndSportQuery } from "./__generated__/SportsPostsByCityAndSportQuery.graphql";
 import { type SportsPostsFragment$key } from "./__generated__/SportsPostsFragment.graphql";

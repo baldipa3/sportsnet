@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { FaTimes, FaImage, FaVideo, FaMapMarkerAlt } from "react-icons/fa";
 import { graphql, useMutation, ConnectionHandler } from "react-relay";
-import { type CreatePostProp } from "../../types/post";
+import { type CreatePostProp } from "../../../types/post";
 import { type CreatePostMutation } from "./__generated__/CreatePostMutation.graphql";
 
 interface MediaFile {

@@ -1,6 +1,6 @@
 import { FaHeart, FaComment } from "react-icons/fa";
 import { GiSoccerKick } from "react-icons/gi";
-import { type PostProp } from "../../types/post";
+import { type PostProp } from "../../../types/post";
 import MediaCarousel from "./MediaCarousel";
 import { graphql, useMutation, useFragment } from "react-relay";
 import { type PostCardLikeMutation } from "./__generated__/PostCardLikeMutation.graphql";

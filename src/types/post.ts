@@ -1,4 +1,4 @@
-import { type PostCardFragment$key } from "../components/PostCard/__generated__/PostCardFragment.graphql";
+import { type PostCardFragment$key } from "../components/posts/PostCard/__generated__/PostCardFragment.graphql";
 import { type SportsPostsFragment$data } from "../pages/Sports/__generated__/SportsPostsFragment.graphql";
 
 type PostLocationContext = {

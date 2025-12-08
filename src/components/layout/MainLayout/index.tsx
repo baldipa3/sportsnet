@@ -1,6 +1,6 @@
 import SportsNavbar from "../SportsNavbar";
 import SportsSidebar from "../SportsSidebar";
-import ContactList from "../ContactList";
+import ContactList from "../../contacts/ContactList";
 import { Outlet } from "react-router-dom";
 
 const AppLayout = () => {

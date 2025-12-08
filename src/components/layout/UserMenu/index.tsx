@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaEdit, FaCopy, FaArchive, FaSignOutAlt } from "react-icons/fa";
-import { axiosInstance } from "../../services/apiBase";
-import { routes } from "../../services/apiRoutes";
+import { axiosInstance } from "../../../services/apiBase";
+import { routes } from "../../../services/apiRoutes";
 
 const UserMenu = () => {
   const [open, setOpen] = useState(false);

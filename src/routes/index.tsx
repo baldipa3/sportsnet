@@ -7,7 +7,7 @@ import {
 import Landing from "../pages/Landing";
 import SportShow from "../pages/Sports";
 import PrivateRoute from "./PrivateRoute";
-import AppLayout from "../components/AppLayout";
+import AppLayout from "../components/layout/MainLayout";
 import Register from "../pages/Register";
 import CitySelection from "../pages/Onboarding/CitySelection";
 import SportSelection from "../pages/Onboarding/SportSelection";
