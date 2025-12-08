@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a8300cb947986abeba23996cdd2ff11d>>
+ * @generated SignedSource<<5ac2d13ae896772c1e125be52fdf0183>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -194,14 +194,14 @@ return {
                             "name": "comments",
                             "plural": true,
                             "selections": [
+                              (v3/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
                                 "kind": "ScalarField",
                                 "name": "content",
                                 "storageKey": null
-                              },
-                              (v3/*: any*/)
+                              }
                             ],
                             "storageKey": null
                           },
@@ -213,14 +213,14 @@ return {
                             "name": "media",
                             "plural": true,
                             "selections": [
+                              (v3/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
                                 "kind": "ScalarField",
                                 "name": "url",
                                 "storageKey": null
-                              },
-                              (v3/*: any*/)
+                              }
                             ],
                             "storageKey": null
                           },
@@ -285,16 +285,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "fa000f3c80ae0ff48433f6ba6cb528ec",
+    "cacheID": "7c1ed8c6d119c88dcebfabbdbcf4ea08",
     "id": null,
     "metadata": {},
     "name": "SportsPostsPaginationQuery",
     "operationKind": "query",
-    "text": "query SportsPostsPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...SportsPostsFragment_1G22uz\n    id\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  comments {\n    content\n    id\n  }\n  media {\n    url\n    id\n  }\n}\n\nfragment SportsPostsFragment_1G22uz on SportCityFeed {\n  posts(first: $count, after: $cursor) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  id\n}\n"
+    "text": "query SportsPostsPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...SportsPostsFragment_1G22uz\n    id\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  comments {\n    id\n    content\n  }\n  media {\n    id\n    url\n  }\n}\n\nfragment SportsPostsFragment_1G22uz on SportCityFeed {\n  id\n  posts(first: $count, after: $cursor) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "3ac66715251d21a9232fb514b4ba8828";
+(node as any).hash = "8ebffaebd00559d9424a13b59f2938c0";
 
 export default node;

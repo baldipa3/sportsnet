@@ -115,6 +115,10 @@ type SportCityFeed implements Node {
   posts(after: String, first: Int, before: String, last: Int): PostConnection
 }
 
+type CreatePostPayload {
+  postEdge: PostEdge!
+}
+
 type RootQueryType {
   node(
     "The ID of an object."
@@ -133,7 +137,7 @@ type RootQueryType {
 
 type RootMutationType {
   "Create a new post with optional media files"
-  createPost(caption: String!, sportId: ID!, cityId: ID!, media: [Upload!]): Post
+  createPost(caption: String!, sportId: ID!, cityId: ID!, media: [Upload!]): CreatePostPayload
 
   "Updates user city"
   completeUserOnboarding(cityId: ID!, defaultSportId: ID!): User

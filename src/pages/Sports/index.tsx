@@ -15,6 +15,7 @@ const PostsFragment = graphql`
     count: { type: "Int", defaultValue: 10 }
     cursor: { type: "String" }
   ) {
+    id
     posts(first: $count, after: $cursor)
       @connection(key: "sportsPostsFragment_posts") {
       edges {
@@ -167,6 +168,7 @@ export default function SportPage() {
         isOpen={isCreatePostOpen}
         onClose={() => setIsCreatePostOpen(false)}
         postLocationContext={postLocationContext}
+        feedData={data}
       />
     </div>
   );

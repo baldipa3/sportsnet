@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { FaTimes, FaImage, FaVideo, FaMapMarkerAlt } from "react-icons/fa";
-import { graphql, useMutation } from "react-relay";
+import { graphql, useMutation, ConnectionHandler } from "react-relay";
 import { type CreatePostProp } from "../../types/post";
 import { type CreatePostMutation } from "./__generated__/CreatePostMutation.graphql";
 
@@ -16,6 +16,7 @@ const CreatePostMutation = graphql`
     $sportId: ID!
     $cityId: ID!
     $media: [Upload!]
+    $connections: [ID!]!
   ) {
     createPost(
       caption: $caption
@@ -23,13 +24,10 @@ const CreatePostMutation = graphql`
       cityId: $cityId
       media: $media
     ) {
-      id
-      caption
-      media {
-        id
-        url
-        mediaType
-        filename
+      postEdge @prependEdge(connections: $connections) {
+        node {
+          ...PostCardFragment
+        }
       }
     }
   }
@@ -39,6 +37,7 @@ const CreatePost = ({
   isOpen,
   onClose,
   postLocationContext,
+  feedData,
 }: CreatePostProp) => {
   const [caption, setCaption] = useState("");
   const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([]);
@@ -107,14 +106,19 @@ const CreatePost = ({
   const handleSubmit = async () => {
     if (!caption.trim()) return;
 
+    const connectionID = ConnectionHandler.getConnectionID(
+      feedData.id,
+      "sportsPostsFragment_posts"
+    );
+
     commitMutation({
       variables: {
         sportId: postLocationContext.sportId,
         cityId: postLocationContext.cityId,
         caption: caption.trim(),
         media: mediaFiles.map((m) => m.file),
+        connections: [connectionID],
       },
-      updater: (store) => {},
       onCompleted: () => {
         handleClose();
       },

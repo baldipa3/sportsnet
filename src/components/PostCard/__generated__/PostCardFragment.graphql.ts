@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1839d2eb0b670245ccf550e420ba6810>>
+ * @generated SignedSource<<ed30c7b88ae5d746bdd00a7b378f4fe7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,12 +14,14 @@ export type PostCardFragment$data = {
   readonly caption: string | null | undefined;
   readonly comments: ReadonlyArray<{
     readonly content: string | null | undefined;
+    readonly id: string;
   } | null | undefined> | null | undefined;
   readonly id: string;
   readonly insertedAt: any | null | undefined;
   readonly likedByCurrentUser: boolean | null | undefined;
   readonly likesCount: number;
   readonly media: ReadonlyArray<{
+    readonly id: string;
     readonly url: string | null | undefined;
   } | null | undefined> | null | undefined;
   readonly " $fragmentType": "PostCardFragment";
@@ -29,19 +31,21 @@ export type PostCardFragment$key = {
   readonly " $fragmentSpreads": FragmentRefs<"PostCardFragment">;
 };
 
-const node: ReaderFragment = {
+const node: ReaderFragment = (function(){
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
+return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
   "name": "PostCardFragment",
   "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "id",
-      "storageKey": null
-    },
+    (v0/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -78,6 +82,7 @@ const node: ReaderFragment = {
       "name": "comments",
       "plural": true,
       "selections": [
+        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -96,6 +101,7 @@ const node: ReaderFragment = {
       "name": "media",
       "plural": true,
       "selections": [
+        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -110,7 +116,8 @@ const node: ReaderFragment = {
   "type": "Post",
   "abstractKey": null
 };
+})();
 
-(node as any).hash = "b1a918691a248107a7fb0d2f124c57f0";
+(node as any).hash = "f608e3a2182b545077064e4224a7f7c3";
 
 export default node;

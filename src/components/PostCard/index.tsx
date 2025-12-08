@@ -13,9 +13,11 @@ const PostCardFragment = graphql`
     likesCount
     likedByCurrentUser
     comments {
+      id
       content
     }
     media {
+      id
       url
     }
   }

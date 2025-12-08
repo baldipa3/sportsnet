@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8d18e1b0d154f05a2be2662a51e0132e>>
+ * @generated SignedSource<<57a4c88afc5c3d32ca04c160a96c41b0>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,22 +9,21 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
 export type CreatePostMutation$variables = {
   caption: string;
   cityId: string;
+  connections: ReadonlyArray<string>;
   media?: ReadonlyArray<any> | null | undefined;
   sportId: string;
 };
 export type CreatePostMutation$data = {
   readonly createPost: {
-    readonly caption: string | null | undefined;
-    readonly id: string;
-    readonly media: ReadonlyArray<{
-      readonly filename: string | null | undefined;
-      readonly id: string;
-      readonly mediaType: string | null | undefined;
-      readonly url: string | null | undefined;
-    } | null | undefined> | null | undefined;
+    readonly postEdge: {
+      readonly node: {
+        readonly " $fragmentSpreads": FragmentRefs<"PostCardFragment">;
+      } | null | undefined;
+    };
   } | null | undefined;
 };
 export type CreatePostMutation = {
@@ -46,107 +45,99 @@ v1 = {
 v2 = {
   "defaultValue": null,
   "kind": "LocalArgument",
-  "name": "media"
+  "name": "connections"
 },
 v3 = {
   "defaultValue": null,
   "kind": "LocalArgument",
-  "name": "sportId"
+  "name": "media"
 },
 v4 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "sportId"
+},
+v5 = [
+  {
+    "kind": "Variable",
+    "name": "caption",
+    "variableName": "caption"
+  },
+  {
+    "kind": "Variable",
+    "name": "cityId",
+    "variableName": "cityId"
+  },
+  {
+    "kind": "Variable",
+    "name": "media",
+    "variableName": "media"
+  },
+  {
+    "kind": "Variable",
+    "name": "sportId",
+    "variableName": "sportId"
+  }
+],
+v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
-},
-v5 = [
-  {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "caption",
-        "variableName": "caption"
-      },
-      {
-        "kind": "Variable",
-        "name": "cityId",
-        "variableName": "cityId"
-      },
-      {
-        "kind": "Variable",
-        "name": "media",
-        "variableName": "media"
-      },
-      {
-        "kind": "Variable",
-        "name": "sportId",
-        "variableName": "sportId"
-      }
-    ],
-    "concreteType": "Post",
-    "kind": "LinkedField",
-    "name": "createPost",
-    "plural": false,
-    "selections": [
-      (v4/*: any*/),
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "caption",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Media",
-        "kind": "LinkedField",
-        "name": "media",
-        "plural": true,
-        "selections": [
-          (v4/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "url",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "mediaType",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "filename",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
-  }
-];
+};
 return {
   "fragment": {
     "argumentDefinitions": [
       (v0/*: any*/),
       (v1/*: any*/),
       (v2/*: any*/),
-      (v3/*: any*/)
+      (v3/*: any*/),
+      (v4/*: any*/)
     ],
     "kind": "Fragment",
     "metadata": null,
     "name": "CreatePostMutation",
-    "selections": (v5/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v5/*: any*/),
+        "concreteType": "CreatePostPayload",
+        "kind": "LinkedField",
+        "name": "createPost",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "PostEdge",
+            "kind": "LinkedField",
+            "name": "postEdge",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "Post",
+                "kind": "LinkedField",
+                "name": "node",
+                "plural": false,
+                "selections": [
+                  {
+                    "args": null,
+                    "kind": "FragmentSpread",
+                    "name": "PostCardFragment"
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "RootMutationType",
     "abstractKey": null
   },
@@ -154,25 +145,143 @@ return {
   "operation": {
     "argumentDefinitions": [
       (v0/*: any*/),
-      (v3/*: any*/),
+      (v4/*: any*/),
       (v1/*: any*/),
+      (v3/*: any*/),
       (v2/*: any*/)
     ],
     "kind": "Operation",
     "name": "CreatePostMutation",
-    "selections": (v5/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v5/*: any*/),
+        "concreteType": "CreatePostPayload",
+        "kind": "LinkedField",
+        "name": "createPost",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "PostEdge",
+            "kind": "LinkedField",
+            "name": "postEdge",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "Post",
+                "kind": "LinkedField",
+                "name": "node",
+                "plural": false,
+                "selections": [
+                  (v6/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "caption",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "insertedAt",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "likesCount",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "likedByCurrentUser",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Comment",
+                    "kind": "LinkedField",
+                    "name": "comments",
+                    "plural": true,
+                    "selections": [
+                      (v6/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "content",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Media",
+                    "kind": "LinkedField",
+                    "name": "media",
+                    "plural": true,
+                    "selections": [
+                      (v6/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "url",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "filters": null,
+            "handle": "prependEdge",
+            "key": "",
+            "kind": "LinkedHandle",
+            "name": "postEdge",
+            "handleArgs": [
+              {
+                "kind": "Variable",
+                "name": "connections",
+                "variableName": "connections"
+              }
+            ]
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "acd051fa779f38637b52d168691ea6fb",
+    "cacheID": "c7085da1459d2a9a8b9926bb81092189",
     "id": null,
     "metadata": {},
     "name": "CreatePostMutation",
     "operationKind": "mutation",
-    "text": "mutation CreatePostMutation(\n  $caption: String!\n  $sportId: ID!\n  $cityId: ID!\n  $media: [Upload!]\n) {\n  createPost(caption: $caption, sportId: $sportId, cityId: $cityId, media: $media) {\n    id\n    caption\n    media {\n      id\n      url\n      mediaType\n      filename\n    }\n  }\n}\n"
+    "text": "mutation CreatePostMutation(\n  $caption: String!\n  $sportId: ID!\n  $cityId: ID!\n  $media: [Upload!]\n) {\n  createPost(caption: $caption, sportId: $sportId, cityId: $cityId, media: $media) {\n    postEdge {\n      node {\n        ...PostCardFragment\n        id\n      }\n    }\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  comments {\n    id\n    content\n  }\n  media {\n    id\n    url\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "b2f60261c4ce28b37db49b11e0ba7b68";
+(node as any).hash = "a2c494d9ec946bd0b86e7f5b009538d9";
 
 export default node;

@@ -1,4 +1,5 @@
 import { type PostCardFragment$key } from "../components/PostCard/__generated__/PostCardFragment.graphql";
+import { type SportsPostsFragment$data } from "../pages/Sports/__generated__/SportsPostsFragment.graphql";
 
 type PostLocationContext = {
   sportId: string;
@@ -13,4 +14,5 @@ export interface CreatePostProp {
   isOpen: boolean;
   onClose: () => void;
   postLocationContext: PostLocationContext;
+  feedData: SportsPostsFragment$data;
 }

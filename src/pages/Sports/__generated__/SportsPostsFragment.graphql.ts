@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<485513da44c067a84b85bfebad0eb550>>
+ * @generated SignedSource<<11dc9d0b969a1d6940b4e5d5a082a086>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -87,6 +87,7 @@ return {
   },
   "name": "SportsPostsFragment",
   "selections": [
+    (v1/*: any*/),
     {
       "alias": "posts",
       "args": null,
@@ -164,14 +165,13 @@ return {
         }
       ],
       "storageKey": null
-    },
-    (v1/*: any*/)
+    }
   ],
   "type": "SportCityFeed",
   "abstractKey": null
 };
 })();
 
-(node as any).hash = "3ac66715251d21a9232fb514b4ba8828";
+(node as any).hash = "8ebffaebd00559d9424a13b59f2938c0";
 
 export default node;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fab96d05d2c990d1bcb0bf14d4f58871>>
+ * @generated SignedSource<<b3dd28a6473e4a9eacbaaa2dadcef0eb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -137,6 +137,7 @@ return {
         "selections": [
           (v4/*: any*/),
           (v5/*: any*/),
+          (v2/*: any*/),
           {
             "alias": null,
             "args": (v6/*: any*/),
@@ -198,14 +199,14 @@ return {
                         "name": "comments",
                         "plural": true,
                         "selections": [
+                          (v2/*: any*/),
                           {
                             "alias": null,
                             "args": null,
                             "kind": "ScalarField",
                             "name": "content",
                             "storageKey": null
-                          },
-                          (v2/*: any*/)
+                          }
                         ],
                         "storageKey": null
                       },
@@ -217,14 +218,14 @@ return {
                         "name": "media",
                         "plural": true,
                         "selections": [
+                          (v2/*: any*/),
                           {
                             "alias": null,
                             "args": null,
                             "kind": "ScalarField",
                             "name": "url",
                             "storageKey": null
-                          },
-                          (v2/*: any*/)
+                          }
                         ],
                         "storageKey": null
                       },
@@ -284,20 +285,19 @@ return {
             "key": "sportsPostsFragment_posts",
             "kind": "LinkedHandle",
             "name": "posts"
-          },
-          (v2/*: any*/)
+          }
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "e091c37d9e8433757612faed4c6aa0fb",
+    "cacheID": "4f3da9b6a497a8feb1a8183e79b95383",
     "id": null,
     "metadata": {},
     "name": "SportsPostsByCityAndSportQuery",
     "operationKind": "query",
-    "text": "query SportsPostsByCityAndSportQuery(\n  $citySlug: String!\n  $sportSlug: String!\n) {\n  postsByCityAndSport(citySlug: $citySlug, sportSlug: $sportSlug) {\n    city {\n      id\n    }\n    sport {\n      id\n    }\n    ...SportsPostsFragment\n    id\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  comments {\n    content\n    id\n  }\n  media {\n    url\n    id\n  }\n}\n\nfragment SportsPostsFragment on SportCityFeed {\n  posts(first: 10) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  id\n}\n"
+    "text": "query SportsPostsByCityAndSportQuery(\n  $citySlug: String!\n  $sportSlug: String!\n) {\n  postsByCityAndSport(citySlug: $citySlug, sportSlug: $sportSlug) {\n    city {\n      id\n    }\n    sport {\n      id\n    }\n    ...SportsPostsFragment\n    id\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  comments {\n    id\n    content\n  }\n  media {\n    id\n    url\n  }\n}\n\nfragment SportsPostsFragment on SportCityFeed {\n  id\n  posts(first: 10) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
