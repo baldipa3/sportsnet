@@ -17,7 +17,8 @@ const AppRoutes = () => {
     <Router>
       <Routes>
         {/* Public Route */}
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Landing />} />
         <Route path="/register" element={<Register />} />
 
         {/* Private Routes Wrapped in AppLayout */}
