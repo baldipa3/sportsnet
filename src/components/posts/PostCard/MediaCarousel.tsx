@@ -30,7 +30,6 @@ const MediaCarousel = ({ post }: MediaCarouselProps) => {
   }, [post.media]);
 
   useEffect(() => {
-    console.log("validMedia:", validMedia);
     if (validMedia.length > 0 && currentIndex >= validMedia.length) {
       setCurrentIndex(0);
     }

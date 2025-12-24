@@ -4,9 +4,13 @@ import { useParams, Navigate } from "react-router-dom";
 import { type SportsPostsByCityAndSportQuery } from "./__generated__/SportsPostsByCityAndSportQuery.graphql";
 import { type SportsPostsFragment$key } from "./__generated__/SportsPostsFragment.graphql";
 import { graphql, useLazyLoadQuery, usePaginationFragment } from "react-relay";
-import { useState, useEffect, useRef } from "react";
-import { FaCamera, FaTrophy } from "react-icons/fa";
-import { GiWhistle } from "react-icons/gi";
+import { useEffect, useRef } from "react";
+import { useOutletContext } from "react-router-dom";
+
+type ContextType = {
+  isCreatePostOpen: boolean;
+  setIsCreatePostOpen: (open: boolean) => void;
+};
 
 const PostsFragment = graphql`
   fragment SportsPostsFragment on SportCityFeed
@@ -32,8 +36,9 @@ const PostsFragment = graphql`
 `;
 
 export default function SportPage() {
-  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const params = useParams<{ sport_slug: string; city_slug: string }>();
+  const { isCreatePostOpen, setIsCreatePostOpen } =
+    useOutletContext<ContextType>();
 
   if (!params.sport_slug || !params.city_slug) {
     return <Navigate to="/" replace />;
@@ -98,47 +103,6 @@ export default function SportPage() {
 
   return (
     <div className="relative">
-      <div className="w-full max-w-screen-lg px-4 mt-4 mb-6">
-        <div className="bg-[#1a1a1a] border-2 border-green-600 rounded-xl p-6 shadow-md relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-green-500 opacity-5"></div>
-
-          <div className="relative">
-            <h3 className="text-white text-lg font-bold mb-4 flex items-center gap-2">
-              <span className="text-2xl">🔥</span>
-              <span>
-                Share Your Game in{" "}
-                <span className="text-green-500 capitalize">
-                  {params.city_slug.replace(/_/g, " ")}
-                </span>
-              </span>
-            </h3>
-            <div className="grid grid-cols-3 gap-3">
-              <button
-                onClick={() => setIsCreatePostOpen(true)}
-                className="bg-[#222222] hover:bg-green-600 border border-gray-700 hover:border-green-500 text-white rounded-lg p-4 flex flex-col items-center gap-2 transition-all duration-200 hover:scale-105 group cursor-pointer"
-              >
-                <FaCamera className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors" />
-                <span className="text-sm font-medium">Post Moment</span>
-              </button>
-              <button
-                onClick={() => setIsCreatePostOpen(true)}
-                className="bg-[#222222] hover:bg-green-600 border border-gray-700 hover:border-green-500 text-white rounded-lg p-4 flex flex-col items-center gap-2 transition-all duration-200 hover:scale-105 group cursor-pointer"
-              >
-                <FaTrophy className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors" />
-                <span className="text-sm font-medium">Share Win</span>
-              </button>
-              <button
-                onClick={() => setIsCreatePostOpen(true)}
-                className="bg-[#222222] hover:bg-green-600 border border-gray-700 hover:border-green-500 text-white rounded-lg p-4 flex flex-col items-center gap-2 transition-all duration-200 hover:scale-105 group cursor-pointer"
-              >
-                <GiWhistle className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors" />
-                <span className="text-sm font-medium">Game Recap</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {data.posts?.edges?.map(
         (edge) => edge?.node && <PostCard key={edge.node.id} data={edge.node} />
       )}

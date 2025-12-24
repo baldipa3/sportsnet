@@ -26,6 +26,8 @@ type City implements Node {
   name: String!
 
   slug: String!
+
+  country: Country
 }
 
 type Sport implements Node {
@@ -133,6 +135,9 @@ type RootQueryType {
 
   "Get posts for a given city\/sport combination"
   postsByCityAndSport(citySlug: String, sportSlug: String): SportCityFeed!
+
+  "Get current authenticated user"
+  currentUser: User!
 }
 
 type RootMutationType {
