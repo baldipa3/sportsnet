@@ -1,5 +1,4 @@
 import { useLocation } from "react-router-dom";
-import SportsNavbar from "../../components/layout/SportsNavbar";
 import { type SportSelectionListQuery } from "./__generated__/SportSelectionListQuery.graphql";
 import { type SportSelectionCompleteUserOnboardingMutation } from "./__generated__/SportSelectionCompleteUserOnboardingMutation.graphql";
 import { graphql, useLazyLoadQuery, useMutation } from "react-relay";
