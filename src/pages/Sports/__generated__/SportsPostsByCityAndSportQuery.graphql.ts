@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b3dd28a6473e4a9eacbaaa2dadcef0eb>>
+ * @generated SignedSource<<5daf1cc63f53afd5b744d9020e8be476>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -232,6 +232,16 @@ return {
                       {
                         "alias": null,
                         "args": null,
+                        "concreteType": "User",
+                        "kind": "LinkedField",
+                        "name": "user",
+                        "plural": false,
+                        "selections": (v3/*: any*/),
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
                         "kind": "ScalarField",
                         "name": "__typename",
                         "storageKey": null
@@ -292,12 +302,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "4f3da9b6a497a8feb1a8183e79b95383",
+    "cacheID": "e359e3e6085cb41790006d4f2b15e4f1",
     "id": null,
     "metadata": {},
     "name": "SportsPostsByCityAndSportQuery",
     "operationKind": "query",
-    "text": "query SportsPostsByCityAndSportQuery(\n  $citySlug: String!\n  $sportSlug: String!\n) {\n  postsByCityAndSport(citySlug: $citySlug, sportSlug: $sportSlug) {\n    city {\n      id\n    }\n    sport {\n      id\n    }\n    ...SportsPostsFragment\n    id\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  comments {\n    id\n    content\n  }\n  media {\n    id\n    url\n  }\n}\n\nfragment SportsPostsFragment on SportCityFeed {\n  id\n  posts(first: 10) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "query SportsPostsByCityAndSportQuery(\n  $citySlug: String!\n  $sportSlug: String!\n) {\n  postsByCityAndSport(citySlug: $citySlug, sportSlug: $sportSlug) {\n    city {\n      id\n    }\n    sport {\n      id\n    }\n    ...SportsPostsFragment\n    id\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  comments {\n    id\n    content\n  }\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n\nfragment SportsPostsFragment on SportCityFeed {\n  id\n  posts(first: 10) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();

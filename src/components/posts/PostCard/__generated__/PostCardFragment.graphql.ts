@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ed30c7b88ae5d746bdd00a7b378f4fe7>>
+ * @generated SignedSource<<4bb9e31f171668976ea034c9fd4eb344>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -24,6 +24,9 @@ export type PostCardFragment$data = {
     readonly id: string;
     readonly url: string | null | undefined;
   } | null | undefined> | null | undefined;
+  readonly user: {
+    readonly id: string;
+  };
   readonly " $fragmentType": "PostCardFragment";
 };
 export type PostCardFragment$key = {
@@ -111,6 +114,18 @@ return {
         }
       ],
       "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "concreteType": "User",
+      "kind": "LinkedField",
+      "name": "user",
+      "plural": false,
+      "selections": [
+        (v0/*: any*/)
+      ],
+      "storageKey": null
     }
   ],
   "type": "Post",
@@ -118,6 +133,6 @@ return {
 };
 })();
 
-(node as any).hash = "f608e3a2182b545077064e4224a7f7c3";
+(node as any).hash = "2752e92e6a3342070fd6e298ab855be9";
 
 export default node;

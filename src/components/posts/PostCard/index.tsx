@@ -1,9 +1,12 @@
-import { FaHeart, FaComment } from "react-icons/fa";
+import { FaHeart, FaComment, FaTrash, FaEdit, FaFlag } from "react-icons/fa";
 import { GiSoccerKick } from "react-icons/gi";
 import { type PostProp } from "../types";
 import MediaCarousel from "./MediaCarousel";
 import { graphql, useMutation, useFragment } from "react-relay";
 import { type PostCardLikeMutation } from "./__generated__/PostCardLikeMutation.graphql";
+import { type PostCardDeletePostMutation } from "./__generated__/PostCardDeletePostMutation.graphql";
+import KebabMenu, { type MenuOption } from "../../layout/KebabMenu";
+import { useCurrentUser } from "../../../utils/CurrentUserContext";
 
 const PostCardFragment = graphql`
   fragment PostCardFragment on Post {
@@ -20,6 +23,9 @@ const PostCardFragment = graphql`
       id
       url
     }
+    user {
+      id
+    }
   }
 `;
 
@@ -35,19 +41,71 @@ const PostCardLikeMutation = graphql`
   }
 `;
 
-const PostCard = ({ data }: PostProp) => {
+const PostCardDeletePostMutation = graphql`
+  mutation PostCardDeletePostMutation($id: ID!, $connections: [ID!]!) {
+    deletePost(id: $id) {
+      id @deleteEdge(connections: $connections)
+    }
+  }
+`;
+
+const PostCard = ({
+  data,
+  connectionId,
+}: PostProp & { connectionId: string }) => {
   const post = useFragment(PostCardFragment, data);
-  const [commitMutation, isMutationInFlight] =
-    useMutation(PostCardLikeMutation);
+  const currentUser = useCurrentUser();
+  const isOwner = currentUser?.id == post.user.id;
+
+  const [commitLikeMutation, isLikeMutationInFlight] =
+    useMutation<PostCardLikeMutation>(PostCardLikeMutation);
+
+  const [commitDeleteMutation] = useMutation<PostCardDeletePostMutation>(
+    PostCardDeletePostMutation
+  );
 
   function onLikeButtonClicked() {
-    commitMutation({
+    commitLikeMutation({
       variables: {
         id: post.id,
         doesLike: !post.likedByCurrentUser,
       },
     });
   }
+
+  function handleDelete() {
+    commitDeleteMutation({
+      variables: {
+        id: post.id,
+        connections: [connectionId],
+      },
+      optimisticUpdater: (store) => {
+        store.delete(post.id);
+      },
+    });
+  }
+
+  const menuOptions: MenuOption[] = isOwner
+    ? [
+        {
+          label: "Delete Post",
+          onClick: handleDelete,
+          variant: "danger",
+          icon: <FaTrash className="w-4 h-4" />,
+        },
+        {
+          label: "Edit Post",
+          onClick: () => {},
+          icon: <FaEdit className="w-4 h-4" />,
+        },
+      ]
+    : [
+        {
+          label: "Report",
+          onClick: () => {},
+          icon: <FaFlag className="w-4 h-4" />,
+        },
+      ];
 
   return (
     <div className="w-full max-w-screen-lg px-4 mt-4">
@@ -67,6 +125,9 @@ const PostCard = ({ data }: PostProp) => {
               {post.insertedAt && new Date(post.insertedAt).toDateString()}
             </span>
           </div>
+          <div className="ml-auto">
+            <KebabMenu options={menuOptions} />
+          </div>
         </div>
 
         <MediaCarousel post={post} />
@@ -80,7 +141,7 @@ const PostCard = ({ data }: PostProp) => {
             <div className="flex items-center gap-1">
               <button
                 onClick={onLikeButtonClicked}
-                disabled={isMutationInFlight}
+                disabled={isLikeMutationInFlight}
                 className="flex items-center gap-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <FaHeart

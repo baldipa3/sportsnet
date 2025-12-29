@@ -80,8 +80,6 @@ type Post implements Node {
 
   caption: String
 
-  userId: ID
-
   sportId: ID
 
   cityId: ID
@@ -95,6 +93,8 @@ type Post implements Node {
   likesCount: Int!
 
   likedByCurrentUser: Boolean
+
+  user: User!
 }
 
 type PostConnection {
@@ -149,6 +149,9 @@ type RootMutationType {
 
   "Likes a post"
   likePost(id: ID!, doesLike: Boolean!): LikePostPayload
+
+  "Soft delete a post"
+  deletePost(id: ID!): Post!
 }
 
 """

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Select from "react-select";
 import { FaCamera, FaTrophy } from "react-icons/fa";
 import { GiWhistle } from "react-icons/gi";
@@ -50,18 +50,25 @@ const SportsNavbar = ({
     {}
   );
 
-  const sportsOptions = data.allSports.map((sport) => ({
-    value: sport.slug,
-    label: sport.name,
-  }));
+  const sportsOptions = useMemo(
+    () =>
+      data.allSports.map((sport) => ({
+        value: sport.slug,
+        label: sport.name,
+      })),
+    [data.allSports]
+  );
 
-  const cityOptions =
-    data.countriesWithCities
-      .find((c) => c.id === currentUser.city?.country?.id)
-      ?.cities.map((city) => ({
-        value: city.slug,
-        label: city.name,
-      })) ?? [];
+  const cityOptions = useMemo(
+    () =>
+      data.countriesWithCities
+        .find((c) => c.id === currentUser.city?.country?.id)
+        ?.cities.map((city) => ({
+          value: city.slug,
+          label: city.name,
+        })) ?? [],
+    [data.countriesWithCities, currentUser.city?.country?.id]
+  );
 
   // Custom styles for react-select
   const customStyles = {
@@ -121,7 +128,7 @@ const SportsNavbar = ({
 
     if (cityOption) setSelectedCity(cityOption);
     if (sportOption) setSelectedSport(sportOption);
-  }, [params.city_slug, params.sport_slug]);
+  }, [params.city_slug, params.sport_slug, cityOptions, sportsOptions]);
 
   const handleCityChange = (selectedOption: OptionType | null) => {
     if (selectedOption && selectedSport) {

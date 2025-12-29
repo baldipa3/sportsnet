@@ -3,7 +3,12 @@ import CreatePost from "../../components/posts/CreatePost";
 import { useParams, Navigate } from "react-router-dom";
 import { type SportsPostsByCityAndSportQuery } from "./__generated__/SportsPostsByCityAndSportQuery.graphql";
 import { type SportsPostsFragment$key } from "./__generated__/SportsPostsFragment.graphql";
-import { graphql, useLazyLoadQuery, usePaginationFragment } from "react-relay";
+import {
+  graphql,
+  useLazyLoadQuery,
+  usePaginationFragment,
+  ConnectionHandler,
+} from "react-relay";
 import { useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 
@@ -101,10 +106,22 @@ export default function SportPage() {
     cityId: query.postsByCityAndSport.city.id,
   };
 
+  const connectionId = ConnectionHandler.getConnectionID(
+    data.id,
+    "sportsPostsFragment_posts"
+  );
+
   return (
     <div className="relative">
       {data.posts?.edges?.map(
-        (edge) => edge?.node && <PostCard key={edge.node.id} data={edge.node} />
+        (edge) =>
+          edge?.node && (
+            <PostCard
+              key={edge.node.id}
+              data={edge.node}
+              connectionId={connectionId}
+            />
+          )
       )}
 
       {/* Infinite Scroll Trigger & Loading State */}

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<57a4c88afc5c3d32ca04c160a96c41b0>>
+ * @generated SignedSource<<1ed80e5c19f5a1ad6f6e7e278b49ad61>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -243,6 +243,18 @@ return {
                       }
                     ],
                     "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "User",
+                    "kind": "LinkedField",
+                    "name": "user",
+                    "plural": false,
+                    "selections": [
+                      (v6/*: any*/)
+                    ],
+                    "storageKey": null
                   }
                 ],
                 "storageKey": null
@@ -272,12 +284,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c7085da1459d2a9a8b9926bb81092189",
+    "cacheID": "9d632c4bb9bc484c0378375205ad8186",
     "id": null,
     "metadata": {},
     "name": "CreatePostMutation",
     "operationKind": "mutation",
-    "text": "mutation CreatePostMutation(\n  $caption: String!\n  $sportId: ID!\n  $cityId: ID!\n  $media: [Upload!]\n) {\n  createPost(caption: $caption, sportId: $sportId, cityId: $cityId, media: $media) {\n    postEdge {\n      node {\n        ...PostCardFragment\n        id\n      }\n    }\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  comments {\n    id\n    content\n  }\n  media {\n    id\n    url\n  }\n}\n"
+    "text": "mutation CreatePostMutation(\n  $caption: String!\n  $sportId: ID!\n  $cityId: ID!\n  $media: [Upload!]\n) {\n  createPost(caption: $caption, sportId: $sportId, cityId: $cityId, media: $media) {\n    postEdge {\n      node {\n        ...PostCardFragment\n        id\n      }\n    }\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  comments {\n    id\n    content\n  }\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n"
   }
 };
 })();
