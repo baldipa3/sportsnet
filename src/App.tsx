@@ -1,7 +1,7 @@
-import AppRoutes from "./routes";
+import { AppRoutes } from "@/routes";
 import { ToastContainer } from "react-toastify";
 
-function App() {
+export function App() {
   return (
     <>
       <AppRoutes />
@@ -9,5 +9,3 @@ function App() {
     </>
   );
 }
-
-export default App;

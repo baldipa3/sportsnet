@@ -78,7 +78,7 @@ type Post implements Node {
   "The ID of an object"
   id: ID!
 
-  caption: String
+  caption: String!
 
   sportId: ID
 
@@ -89,6 +89,8 @@ type Post implements Node {
   media: [Media]
 
   comments: [Comment]
+
+  wasEdited: Boolean
 
   likesCount: Int!
 
@@ -152,6 +154,9 @@ type RootMutationType {
 
   "Soft delete a post"
   deletePost(id: ID!): Post!
+
+  "Edit a post and record an edit_post"
+  editPost(id: ID!, caption: String!): Post!
 }
 
 """

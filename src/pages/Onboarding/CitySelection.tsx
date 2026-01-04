@@ -9,7 +9,7 @@ type Country = NonNullable<
 >[number];
 type City = Country["cities"][number];
 
-const CitySelection: React.FC = () => {
+export const CitySelection: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
 
@@ -120,5 +120,3 @@ const CitySelection: React.FC = () => {
     </div>
   );
 };
-
-export default CitySelection;

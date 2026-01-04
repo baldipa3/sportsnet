@@ -2,7 +2,7 @@ import { type JSX } from "react";
 import { Navigate } from "react-router-dom";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { CurrentUserProvider } from "../utils/CurrentUserContext";
+import { CurrentUserProvider } from "@/utils/CurrentUserContext";
 import { GiWhistle } from "react-icons/gi";
 
 const isDevelopment = import.meta.env.DEV;
@@ -111,4 +111,4 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   );
 };
 
-export default PrivateRoute;
+export { PrivateRoute };

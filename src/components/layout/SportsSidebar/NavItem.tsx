@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import type { NavigationItem, NavItemProps } from "./types";
+import type { NavItemProps } from "./types";
 
-export default function NavItem({ item, isActive }: NavItemProps) {
+export function NavItem({ item, isActive }: NavItemProps) {
   const { label, icon: Icon, notifications, messages, path } = item;
 
   if (item.type === "link") {

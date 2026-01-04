@@ -14,7 +14,7 @@ vi.mock("react-country-flag", () => ({
 }));
 
 // Import after mocking
-import CitySelection from "./CitySelection";
+import { CitySelection } from "./CitySelection";
 import { useLazyLoadQuery } from "react-relay";
 
 describe("CitySelection Component", () => {

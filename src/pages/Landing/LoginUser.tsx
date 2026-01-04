@@ -1,6 +1,6 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { axiosInstance } from "../../services/apiBase";
-import { routes } from "../../services/apiRoutes";
+import { axiosInstance } from "@/services/apiBase";
+import { routes } from "@/services/apiRoutes";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ interface IFormInput {
   password: string;
 }
 
-const LoginUser = () => {
+export const LoginUser = () => {
   const { register, handleSubmit } = useForm<IFormInput>();
   const navigate = useNavigate();
   const [serverError, setServerError] = useState<string | null>(null);
@@ -100,5 +100,3 @@ const LoginUser = () => {
     </section>
   );
 };
-
-export default LoginUser;

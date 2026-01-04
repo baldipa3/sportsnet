@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { type SportSelectionListQuery } from "./__generated__/SportSelectionListQuery.graphql";
 import { type SportSelectionCompleteUserOnboardingMutation } from "./__generated__/SportSelectionCompleteUserOnboardingMutation.graphql";
 import { graphql, useLazyLoadQuery, useMutation } from "react-relay";
-import { getSportIcon } from "../../ui/sportIcons";
+import { getSportIcon } from "@/components/ui";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ type Sport = {
   slug: string;
 };
 
-const SportSelection = () => {
+export const SportSelection = () => {
   const location = useLocation();
   const { cityId } = location.state || {};
   const navigate = useNavigate();
@@ -124,5 +124,3 @@ const SportSelection = () => {
     </div>
   );
 };
-
-export default SportSelection;

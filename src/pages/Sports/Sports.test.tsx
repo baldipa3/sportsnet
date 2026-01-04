@@ -25,14 +25,11 @@ vi.mock("react-router-dom", async () => {
 });
 
 // Mock components
-vi.mock("../../components/PostCard", () => ({
-  default: ({ data }: any) => (
+vi.mock("@/features/posts", () => ({
+  PostCard: ({ data }: any) => (
     <div data-testid={`post-${data.id}`}>Post {data.id}</div>
   ),
-}));
-
-vi.mock("../../components/CreatePost", () => ({
-  default: ({ isOpen, onClose }: any) =>
+  CreatePost: ({ isOpen, onClose }: any) =>
     isOpen ? (
       <div data-testid="create-post-modal">
         <button onClick={onClose}>Close</button>
@@ -41,7 +38,7 @@ vi.mock("../../components/CreatePost", () => ({
 }));
 
 // Import after mocking
-import SportPage from ".";
+import { SportPage } from ".";
 
 describe("Sports Page - Infinite Scroll", () => {
   let observerCallback: IntersectionObserverCallback;
@@ -188,7 +185,7 @@ describe("Sports Page - Infinite Scroll", () => {
           isIntersecting: true,
           target: document.createElement("div"),
         },
-      ] as IntersectionObserverEntry[];
+      ] as unknown as IntersectionObserverEntry[];
 
       observerCallback(entries, {} as IntersectionObserver);
 
@@ -220,7 +217,7 @@ describe("Sports Page - Infinite Scroll", () => {
           isIntersecting: true,
           target: document.createElement("div"),
         },
-      ] as IntersectionObserverEntry[];
+      ] as unknown as IntersectionObserverEntry[];
 
       observerCallback(entries, {} as IntersectionObserver);
 
@@ -252,7 +249,7 @@ describe("Sports Page - Infinite Scroll", () => {
           isIntersecting: true,
           target: document.createElement("div"),
         },
-      ] as IntersectionObserverEntry[];
+      ] as unknown as IntersectionObserverEntry[];
 
       observerCallback(entries, {} as IntersectionObserver);
 

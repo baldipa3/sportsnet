@@ -17,18 +17,13 @@ vi.mock("react-toastify", () => ({
   },
 }));
 
-// Mock SportsNavbar
-vi.mock("../../components/SportsNavbar", () => ({
-  default: () => <div data-testid="sports-navbar">Sports Navbar</div>,
-}));
-
-// Mock sportIcons
-vi.mock("../../utils/sportIcons", () => ({
+// Mock getSportIcon
+vi.mock("@/components/ui", () => ({
   getSportIcon: vi.fn(() => () => <div data-testid="sport-icon">Icon</div>),
 }));
 
 // Import after mocking
-import SportSelection from "./SportSelection";
+import { SportSelection } from "./SportSelection";
 import { useLazyLoadQuery } from "react-relay";
 
 describe("SportSelection Component", () => {

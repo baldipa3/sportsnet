@@ -4,22 +4,21 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Landing from "../pages/Landing";
-import SportShow from "../pages/Sports";
-import PrivateRoute from "./PrivateRoute";
-import AppLayout from "../components/layout/MainLayout";
-import Register from "../pages/Register";
-import CitySelection from "../pages/Onboarding/CitySelection";
-import SportSelection from "../pages/Onboarding/SportSelection";
+import { Landing } from "@/pages/Landing";
+import { SportPage } from "@/pages/Sports";
+import { PrivateRoute } from "@/routes/PrivateRoute";
+import { AppLayout } from "@/components/layout";
+import { RegisterPage } from "@/pages/Register";
+import { CitySelection, SportSelection } from "@/pages/Onboarding";
 
-const AppRoutes = () => {
+export const AppRoutes = () => {
   return (
     <Router>
       <Routes>
         {/* Public Route */}
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Landing />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         {/* Private Routes Wrapped in AppLayout */}
         <Route
@@ -48,7 +47,7 @@ const AppRoutes = () => {
           {/* Nested Private Routes */}
           <Route
             path="sports/:sport_slug/cities/:city_slug"
-            element={<SportShow />}
+            element={<SportPage />}
           />
 
           {/* Default Redirect for Private Routes */}
@@ -61,5 +60,3 @@ const AppRoutes = () => {
     </Router>
   );
 };
-
-export default AppRoutes;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<893a9766ea8a35e48a2759964dbdca44>>
+ * @generated SignedSource<<d21b623a252c4d8cd335abe222181cc1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -189,6 +189,13 @@ return {
                           {
                             "alias": null,
                             "args": null,
+                            "kind": "ScalarField",
+                            "name": "wasEdited",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
                             "concreteType": "Comment",
                             "kind": "LinkedField",
                             "name": "comments",
@@ -297,12 +304,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "20c82264c55c59b402bbae9da39ceb69",
+    "cacheID": "94faff3804408206e8a4060f911dab3c",
     "id": null,
     "metadata": {},
     "name": "SportsPostsPaginationQuery",
     "operationKind": "query",
-    "text": "query SportsPostsPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...SportsPostsFragment_1G22uz\n    id\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  comments {\n    id\n    content\n  }\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n\nfragment SportsPostsFragment_1G22uz on SportCityFeed {\n  id\n  posts(first: $count, after: $cursor) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "query SportsPostsPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...SportsPostsFragment_1G22uz\n    id\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  wasEdited\n  comments {\n    id\n    content\n  }\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n\nfragment SportsPostsFragment_1G22uz on SportCityFeed {\n  id\n  posts(first: $count, after: $cursor) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();

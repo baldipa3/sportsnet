@@ -3,13 +3,13 @@ import userEvent from "@testing-library/user-event";
 import { describe, test, expect, vi, beforeEach } from "vitest";
 
 // Mock everything before any imports
-vi.mock("../../services/apiBase", () => ({
+vi.mock("@/services/apiBase", () => ({
   axiosInstance: {
     post: vi.fn(),
   },
 }));
 
-vi.mock("../../services/apiRoutes", () => ({
+vi.mock("@/services/apiRoutes", () => ({
   routes: {
     loginUser: vi.fn(() => "/api/login"),
   },
@@ -42,8 +42,8 @@ Object.defineProperty(window, "localStorage", {
 });
 
 // Import after mocking
-import LoginUser from "./LoginUser";
-import { axiosInstance } from "../../services/apiBase";
+import { LoginUser } from "./LoginUser";
+import { axiosInstance } from "@/services/apiBase";
 
 describe("LoginUser Component", () => {
   beforeEach(() => {
