@@ -36,7 +36,13 @@ export const MediaCarousel = ({ post }: MediaCarouselProps) => {
   }, [validMedia.length, currentIndex]);
 
   if (validMedia.length === 0) {
-    return;
+    return (
+      <div className="relative w-full bg-black">
+        <div className="relative w-full h-96 overflow-hidden bg-gray-900 flex items-center justify-center">
+          <span className="text-gray-500 text-sm">No media</span>
+        </div>
+      </div>
+    );
   }
 
   const nextSlide = (): void => {

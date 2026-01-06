@@ -111,7 +111,7 @@ export function SportPage() {
   );
 
   return (
-    <div className="relative">
+    <div className="relative w-full flex flex-col items-center">
       {data.posts?.edges?.map(
         (edge) =>
           edge?.node && (

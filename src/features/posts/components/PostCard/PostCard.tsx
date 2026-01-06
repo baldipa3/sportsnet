@@ -4,6 +4,7 @@ import { GiSoccerKick } from "react-icons/gi";
 import { type PostProp } from "../../types";
 import { MediaCarousel } from "./MediaCarousel";
 import { EditPost } from "../EditPost";
+import { Comments } from "../Comments";
 import { graphql, useMutation, useFragment } from "react-relay";
 import { type PostCardLikeMutation } from "./__generated__/PostCardLikeMutation.graphql";
 import { type PostCardDeletePostMutation } from "./__generated__/PostCardDeletePostMutation.graphql";
@@ -60,6 +61,7 @@ export const PostCard = ({
   const currentUser = useCurrentUser();
   const isOwner = currentUser?.id == post.user.id;
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isCommentSectionOpen, setIsCommentSectionOpen] = useState(false);
 
   const [commitLikeMutation, isLikeMutationInFlight] =
     useMutation<PostCardLikeMutation>(PostCardLikeMutation);
@@ -117,7 +119,7 @@ export const PostCard = ({
 
   return (
     <>
-      <div className="w-full max-w-screen-lg px-4 mt-4">
+      <div className="w-full max-w-6xl px-6 mt-4">
         <div
           key={post.id}
           className="bg-[#222222] rounded-xl overflow-hidden shadow-lg mb-6"
@@ -172,10 +174,19 @@ export const PostCard = ({
               </div>
 
               {/* Comments */}
-              <div className="flex items-center gap-1 text-gray-400 hover:text-white transition-all">
-                <FaComment className="w-5 h-5 cursor-pointer" />
-                {/* <span className="text-sm font-bold">{post.likes}</span> */}
-              </div>
+              <button
+                onClick={() => setIsCommentSectionOpen(!isCommentSectionOpen)}
+                className="flex items-center gap-1 text-gray-400 hover:text-white transition-all cursor-pointer"
+              >
+                <FaComment
+                  className={`w-5 h-5 ${
+                    isCommentSectionOpen ? "text-green-500" : ""
+                  }`}
+                />
+                <span className="text-sm font-bold">
+                  {post.comments?.length || 0}
+                </span>
+              </button>
 
               {/* Sports Icon */}
               <div className="flex items-center gap-1 text-gray-400 hover:text-white transition-all">
@@ -184,6 +195,14 @@ export const PostCard = ({
               </div>
             </div>
           </div>
+
+          {/* Comment Section Inline */}
+          {isCommentSectionOpen && (
+            <Comments
+              postId={post.id}
+              onClose={() => setIsCommentSectionOpen(false)}
+            />
+          )}
         </div>
       </div>
 
