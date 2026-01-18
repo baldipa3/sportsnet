@@ -1,69 +1,37 @@
-// User interface for comment authors
+import { type CommentsFragment$key } from "./__generated__/CommentsFragment.graphql";
+import { type CommentCardFragment$key } from "./CommentCard/__generated__/CommentCardFragment.graphql";
+
+// Props interfaces for Relay integration
+export interface CommentsProps {
+  postFragmentKey: CommentsFragment$key;
+  onClose: () => void;
+}
+
+export interface CommentCardProps {
+  commentFragmentKey: CommentCardFragment$key;
+  depth: number; // Not used internally but kept for interface consistency
+  onReply: (
+    parentCommentId: string,
+    connectionId: string,
+    userName: string
+  ) => void;
+  currentUserId: string;
+  postId: string; // Not used internally but required for child components
+  postConnectionId: string;
+}
+
+export interface CreateCommentProps {
+  postId: string;
+  connectionId?: string; // For Relay @appendEdge (top-level comments)
+  parentCommentId?: string;
+  parentConnectionId?: string; // For Relay @appendEdge (replies)
+  replyingToUserName?: string;
+  onCancelReply: () => void;
+  onSubmitSuccess?: () => void;
+}
+
 export interface CommentUser {
   id: string;
   name: string;
   surname: string;
-  avatarUrl?: string; // Optional, fallback to /assets/avatar.svg
-}
-
-// Main comment interface
-export interface Comment {
-  id: string;
-  content: string;
-  createdAt: string; // ISO 8601 timestamp
-  user: CommentUser;
-  likesCount: number;
-  isLikedByCurrentUser: boolean;
-
-  // Reply tracking
-  replyToCommentId?: string; // Parent comment ID if this is a reply
-  replyToUserId?: string; // User being replied to (for @ mention)
-  replies: Comment[]; // Nested replies (max 1 level)
-
-  // For future relay integration
-  __typename?: "Comment";
-}
-
-// Props interfaces
-export interface CommentsProps {
-  postId: string;
-  onClose: () => void;
-}
-
-export interface CommentListProps {
-  comments: Comment[];
-  onReply: (comment: Comment) => void;
-  onLike: (commentId: string) => void;
-  onDelete: (commentId: string) => void;
-  currentUserId: string;
-}
-
-export interface CommentItemProps {
-  comment: Comment;
-  depth: number;
-  onReply: (comment: Comment) => void;
-  onLike: (commentId: string) => void;
-  onDelete: (commentId: string) => void;
-  currentUserId: string;
-}
-
-export interface CommentInputProps {
-  onSubmit: (content: string) => void;
-  replyingTo?: Comment;
-  onCancelReply: () => void;
-  isSubmitting: boolean;
-}
-
-// For future relay pagination
-export interface CommentEdge {
-  cursor: string;
-  node: Comment;
-}
-
-export interface CommentConnection {
-  edges: CommentEdge[];
-  pageInfo: {
-    hasNextPage: boolean;
-    endCursor: string;
-  };
 }

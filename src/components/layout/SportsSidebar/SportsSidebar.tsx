@@ -8,62 +8,67 @@ import {
   FaComments,
   FaCog,
 } from "react-icons/fa";
-
+import { useCurrentUser } from "@/utils/CurrentUserContext";
 import type { NavigationItem } from "./types";
-
-const items: NavigationItem[] = [
-  {
-    type: "link",
-    label: "Home",
-    icon: FaTrophy,
-    path: "/sports",
-  },
-  {
-    type: "link",
-    label: "Teams",
-    icon: FaUsers,
-    path: "/teams",
-  },
-  {
-    type: "link",
-    label: "Goals",
-    icon: FaFlag,
-    path: "/goals",
-  },
-  {
-    type: "link",
-    label: "Events",
-    icon: FaCalendarAlt,
-    path: "/events",
-  },
-  {
-    type: "header",
-    label: "Account",
-  },
-  {
-    type: "link",
-    label: "Notifications",
-    icon: FaBell,
-    path: "/notifications",
-    notifications: 24,
-  },
-  {
-    type: "link",
-    label: "Chat",
-    icon: FaComments,
-    path: "/chat",
-    messages: 8,
-  },
-  {
-    type: "link",
-    label: "Settings",
-    icon: FaCog,
-    path: "/settings",
-  },
-];
 
 export const SportsSidebar = () => {
   const location = useLocation();
+  const currentUser = useCurrentUser();
+  const homePath =
+    currentUser?.city?.slug && currentUser?.defaultSport?.slug
+      ? `/sports/${currentUser.defaultSport.slug}/cities/${currentUser.city.slug}`
+      : "/";
+
+  const items: NavigationItem[] = [
+    {
+      type: "link",
+      label: "Home",
+      icon: FaTrophy,
+      path: homePath,
+    },
+    {
+      type: "link",
+      label: "Teams",
+      icon: FaUsers,
+      path: "/teams",
+    },
+    {
+      type: "link",
+      label: "Goals",
+      icon: FaFlag,
+      path: "/goals",
+    },
+    {
+      type: "link",
+      label: "Events",
+      icon: FaCalendarAlt,
+      path: "/events",
+    },
+    {
+      type: "header",
+      label: "Account",
+    },
+    {
+      type: "link",
+      label: "Notifications",
+      icon: FaBell,
+      path: "/notifications",
+      notifications: 24,
+    },
+    {
+      type: "link",
+      label: "Chat",
+      icon: FaComments,
+      path: "/chat",
+      messages: 8,
+    },
+    {
+      type: "link",
+      label: "Settings",
+      icon: FaCog,
+      path: "/settings",
+    },
+  ];
 
   return (
     <div className="w-full h-full bg-[#121212] border-gray-800 p-4 shadow-lg">
@@ -81,12 +86,14 @@ export const SportsSidebar = () => {
           }
 
           const Icon = item.icon;
-          const isActive = location.pathname === item.path;
+          // Use dynamic home path for Home link, otherwise use item's path
+          const linkPath = item.label === "Home" ? homePath : item.path || "/";
+          const isActive = location.pathname === linkPath;
 
           return (
             <li key={index}>
               <Link
-                to={item.path || "/"}
+                to={linkPath}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${
                   isActive
                     ? "bg-gray-700 text-white"

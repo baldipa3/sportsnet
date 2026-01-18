@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8b05c79763e2115edf9f66e905bc18da>>
+ * @generated SignedSource<<49cf02f7be35bcdca24ee2df63290161>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,27 +10,24 @@
 
 import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type PostCardFragment$data = {
-  readonly caption: string;
-  readonly commentsCount: number;
+export type CommentCardFragment$data = {
+  readonly commentLikesCount: number;
+  readonly content: string | null | undefined;
   readonly id: string;
   readonly insertedAt: any | null | undefined;
-  readonly likedByCurrentUser: boolean | null | undefined;
-  readonly media: ReadonlyArray<{
-    readonly id: string;
-    readonly url: string | null | undefined;
-  } | null | undefined> | null | undefined;
-  readonly postLikesCount: number;
+  readonly parentCommentId: string | null | undefined;
+  readonly repliesCount: number;
   readonly user: {
     readonly id: string;
+    readonly name: string;
+    readonly surname: string;
   };
   readonly wasEdited: boolean | null | undefined;
-  readonly " $fragmentSpreads": FragmentRefs<"CommentsFragment">;
-  readonly " $fragmentType": "PostCardFragment";
+  readonly " $fragmentType": "CommentCardFragment";
 };
-export type PostCardFragment$key = {
-  readonly " $data"?: PostCardFragment$data;
-  readonly " $fragmentSpreads": FragmentRefs<"PostCardFragment">;
+export type CommentCardFragment$key = {
+  readonly " $data"?: CommentCardFragment$data;
+  readonly " $fragmentSpreads": FragmentRefs<"CommentCardFragment">;
 };
 
 const node: ReaderFragment = (function(){
@@ -45,14 +42,14 @@ return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "PostCardFragment",
+  "name": "CommentCardFragment",
   "selections": [
     (v0/*: any*/),
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "caption",
+      "name": "content",
       "storageKey": null
     },
     {
@@ -66,20 +63,6 @@ return {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "postLikesCount",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "likedByCurrentUser",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
       "name": "wasEdited",
       "storageKey": null
     },
@@ -87,31 +70,21 @@ return {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "commentsCount",
+      "name": "commentLikesCount",
       "storageKey": null
-    },
-    {
-      "args": null,
-      "kind": "FragmentSpread",
-      "name": "CommentsFragment"
     },
     {
       "alias": null,
       "args": null,
-      "concreteType": "Media",
-      "kind": "LinkedField",
-      "name": "media",
-      "plural": true,
-      "selections": [
-        (v0/*: any*/),
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "url",
-          "storageKey": null
-        }
-      ],
+      "kind": "ScalarField",
+      "name": "repliesCount",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "parentCommentId",
       "storageKey": null
     },
     {
@@ -122,16 +95,30 @@ return {
       "name": "user",
       "plural": false,
       "selections": [
-        (v0/*: any*/)
+        (v0/*: any*/),
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "name",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "surname",
+          "storageKey": null
+        }
       ],
       "storageKey": null
     }
   ],
-  "type": "Post",
+  "type": "Comment",
   "abstractKey": null
 };
 })();
 
-(node as any).hash = "d611148babc63219bf1ed35dc4cd4fd2";
+(node as any).hash = "b5a58a09826d44a31af3403fda2d6aae";
 
 export default node;

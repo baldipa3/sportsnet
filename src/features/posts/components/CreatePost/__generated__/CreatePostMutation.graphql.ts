@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6b83e81a53dfbf0331a190a87e2b7335>>
+ * @generated SignedSource<<80bfef01589b3add172710c322f1db28>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -85,6 +85,132 @@ v6 = {
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "insertedAt",
+  "storageKey": null
+},
+v8 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "wasEdited",
+  "storageKey": null
+},
+v9 = [
+  {
+    "kind": "Literal",
+    "name": "first",
+    "value": 10
+  }
+],
+v10 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "content",
+  "storageKey": null
+},
+v11 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "commentLikesCount",
+  "storageKey": null
+},
+v12 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "repliesCount",
+  "storageKey": null
+},
+v13 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "parentCommentId",
+  "storageKey": null
+},
+v14 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "User",
+  "kind": "LinkedField",
+  "name": "user",
+  "plural": false,
+  "selections": [
+    (v6/*: any*/),
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "name",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "surname",
+      "storageKey": null
+    }
+  ],
+  "storageKey": null
+},
+v15 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "__typename",
+  "storageKey": null
+},
+v16 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "cursor",
+  "storageKey": null
+},
+v17 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "PageInfo",
+  "kind": "LinkedField",
+  "name": "pageInfo",
+  "plural": false,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "hasNextPage",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "endCursor",
+      "storageKey": null
+    }
+  ],
+  "storageKey": null
+},
+v18 = {
+  "kind": "ClientExtension",
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "__id",
+      "storageKey": null
+    }
+  ]
 };
 return {
   "fragment": {
@@ -185,18 +311,12 @@ return {
                     "name": "caption",
                     "storageKey": null
                   },
+                  (v7/*: any*/),
                   {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "insertedAt",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "likesCount",
+                    "name": "postLikesCount",
                     "storageKey": null
                   },
                   {
@@ -206,31 +326,121 @@ return {
                     "name": "likedByCurrentUser",
                     "storageKey": null
                   },
+                  (v8/*: any*/),
                   {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "wasEdited",
+                    "name": "commentsCount",
                     "storageKey": null
                   },
                   {
                     "alias": null,
-                    "args": null,
-                    "concreteType": "Comment",
+                    "args": (v9/*: any*/),
+                    "concreteType": "CommentConnection",
                     "kind": "LinkedField",
                     "name": "comments",
-                    "plural": true,
+                    "plural": false,
                     "selections": [
-                      (v6/*: any*/),
                       {
                         "alias": null,
                         "args": null,
-                        "kind": "ScalarField",
-                        "name": "content",
+                        "concreteType": "CommentEdge",
+                        "kind": "LinkedField",
+                        "name": "edges",
+                        "plural": true,
+                        "selections": [
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "Comment",
+                            "kind": "LinkedField",
+                            "name": "node",
+                            "plural": false,
+                            "selections": [
+                              (v6/*: any*/),
+                              (v10/*: any*/),
+                              (v7/*: any*/),
+                              (v8/*: any*/),
+                              (v11/*: any*/),
+                              (v12/*: any*/),
+                              (v13/*: any*/),
+                              (v14/*: any*/),
+                              {
+                                "alias": null,
+                                "args": (v9/*: any*/),
+                                "concreteType": "CommentConnection",
+                                "kind": "LinkedField",
+                                "name": "replies",
+                                "plural": false,
+                                "selections": [
+                                  {
+                                    "alias": null,
+                                    "args": null,
+                                    "concreteType": "CommentEdge",
+                                    "kind": "LinkedField",
+                                    "name": "edges",
+                                    "plural": true,
+                                    "selections": [
+                                      {
+                                        "alias": null,
+                                        "args": null,
+                                        "concreteType": "Comment",
+                                        "kind": "LinkedField",
+                                        "name": "node",
+                                        "plural": false,
+                                        "selections": [
+                                          (v6/*: any*/),
+                                          (v10/*: any*/),
+                                          (v7/*: any*/),
+                                          (v8/*: any*/),
+                                          (v11/*: any*/),
+                                          (v12/*: any*/),
+                                          (v13/*: any*/),
+                                          (v14/*: any*/),
+                                          (v15/*: any*/)
+                                        ],
+                                        "storageKey": null
+                                      },
+                                      (v16/*: any*/)
+                                    ],
+                                    "storageKey": null
+                                  },
+                                  (v17/*: any*/),
+                                  (v18/*: any*/)
+                                ],
+                                "storageKey": "replies(first:10)"
+                              },
+                              {
+                                "alias": null,
+                                "args": (v9/*: any*/),
+                                "filters": null,
+                                "handle": "connection",
+                                "key": "CommentCardWithRepliesFragment_replies",
+                                "kind": "LinkedHandle",
+                                "name": "replies"
+                              },
+                              (v15/*: any*/)
+                            ],
+                            "storageKey": null
+                          },
+                          (v16/*: any*/)
+                        ],
                         "storageKey": null
-                      }
+                      },
+                      (v17/*: any*/),
+                      (v18/*: any*/)
                     ],
-                    "storageKey": null
+                    "storageKey": "comments(first:10)"
+                  },
+                  {
+                    "alias": null,
+                    "args": (v9/*: any*/),
+                    "filters": null,
+                    "handle": "connection",
+                    "key": "CommentsFragment_comments",
+                    "kind": "LinkedHandle",
+                    "name": "comments"
                   },
                   {
                     "alias": null,
@@ -291,12 +501,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a3c337c5a67a7550864c9114f02605f7",
+    "cacheID": "005b9137c7dda0e5e31599838dcb7c2c",
     "id": null,
     "metadata": {},
     "name": "CreatePostMutation",
     "operationKind": "mutation",
-    "text": "mutation CreatePostMutation(\n  $caption: String!\n  $sportId: ID!\n  $cityId: ID!\n  $media: [Upload!]\n) {\n  createPost(caption: $caption, sportId: $sportId, cityId: $cityId, media: $media) {\n    postEdge {\n      node {\n        ...PostCardFragment\n        id\n      }\n    }\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  likesCount\n  likedByCurrentUser\n  wasEdited\n  comments {\n    id\n    content\n  }\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n"
+    "text": "mutation CreatePostMutation(\n  $caption: String!\n  $sportId: ID!\n  $cityId: ID!\n  $media: [Upload!]\n) {\n  createPost(caption: $caption, sportId: $sportId, cityId: $cityId, media: $media) {\n    postEdge {\n      node {\n        ...PostCardFragment\n        id\n      }\n    }\n  }\n}\n\nfragment CommentCardFragment on Comment {\n  id\n  content\n  insertedAt\n  wasEdited\n  commentLikesCount\n  repliesCount\n  parentCommentId\n  user {\n    id\n    name\n    surname\n  }\n}\n\nfragment CommentCardWithRepliesFragment on Comment {\n  ...CommentCardFragment\n  replies(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  id\n}\n\nfragment CommentsFragment on Post {\n  id\n  comments(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        ...CommentCardWithRepliesFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  postLikesCount\n  likedByCurrentUser\n  wasEdited\n  commentsCount\n  ...CommentsFragment\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n"
   }
 };
 })();

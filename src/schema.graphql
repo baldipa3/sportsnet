@@ -72,6 +72,22 @@ type Comment implements Node {
   id: ID!
 
   content: String
+
+  insertedAt: DateTime
+
+  wasEdited: Boolean
+
+  commentLikesCount: Int!
+
+  repliesCount: Int!
+
+  user: User!
+
+  postId: ID
+
+  parentCommentId: ID
+
+  replies(after: String, first: Int, before: String, last: Int): CommentConnection
 }
 
 type Post implements Node {
@@ -88,20 +104,27 @@ type Post implements Node {
 
   media: [Media]
 
-  comments: [Comment]
-
   wasEdited: Boolean
 
-  likesCount: Int!
+  postLikesCount: Int!
+
+  commentsCount: Int!
 
   likedByCurrentUser: Boolean
 
   user: User!
+
+  comments(after: String, first: Int, before: String, last: Int): CommentConnection
 }
 
 type PostConnection {
   pageInfo: PageInfo!
   edges: [PostEdge]
+}
+
+type CommentConnection {
+  pageInfo: PageInfo!
+  edges: [CommentEdge]
 }
 
 type LikePostPayload {
@@ -121,6 +144,11 @@ type SportCityFeed implements Node {
 
 type CreatePostPayload {
   postEdge: PostEdge!
+}
+
+type CreateCommentPayload {
+  commentEdge: CommentEdge!
+  parent: Node!
 }
 
 type RootQueryType {
@@ -157,6 +185,15 @@ type RootMutationType {
 
   "Edit a post and record an edit_post"
   editPost(id: ID!, caption: String!): Post!
+
+  "Create a new comment for a post"
+  createComment(content: String!, postId: ID!, parentCommentId: ID): CreateCommentPayload
+
+  "Soft delete a comment"
+  deleteComment(id: ID!): Comment!
+
+  "Edit a comment and record an edit_comment"
+  editComment(id: ID!, content: String!): Comment!
 }
 
 """
@@ -182,6 +219,11 @@ type PageInfo {
 
   "When paginating forwards, the cursor to continue."
   endCursor: String
+}
+
+type CommentEdge {
+  node: Comment
+  cursor: String
 }
 
 type PostEdge {

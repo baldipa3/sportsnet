@@ -16,13 +16,11 @@ const PostCardFragment = graphql`
     id
     caption
     insertedAt
-    likesCount
+    postLikesCount
     likedByCurrentUser
     wasEdited
-    comments {
-      id
-      content
-    }
+    commentsCount
+    ...CommentsFragment
     media {
       id
       url
@@ -38,7 +36,7 @@ const PostCardLikeMutation = graphql`
     likePost(id: $id, doesLike: $doesLike) {
       post {
         id
-        likesCount
+        postLikesCount
         likedByCurrentUser
       }
     }
@@ -169,7 +167,7 @@ export const PostCard = ({
                   />
                 </button>
                 <span className="text-sm font-bold hover:text-white text-gray-400">
-                  {post.likesCount}
+                  {post.postLikesCount}
                 </span>
               </div>
 
@@ -183,9 +181,7 @@ export const PostCard = ({
                     isCommentSectionOpen ? "text-green-500" : ""
                   }`}
                 />
-                <span className="text-sm font-bold">
-                  {post.comments?.length || 0}
-                </span>
+                <span className="text-sm font-bold">{post.commentsCount}</span>
               </button>
 
               {/* Sports Icon */}
@@ -199,7 +195,7 @@ export const PostCard = ({
           {/* Comment Section Inline */}
           {isCommentSectionOpen && (
             <Comments
-              postId={post.id}
+              postFragmentKey={post}
               onClose={() => setIsCommentSectionOpen(false)}
             />
           )}

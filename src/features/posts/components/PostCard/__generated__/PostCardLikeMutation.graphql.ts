@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8c0d30364fc5e8dcff0cc97b207a4168>>
+ * @generated SignedSource<<65448885e10dc57e9bafeb78468fb5b0>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,7 +18,7 @@ export type PostCardLikeMutation$data = {
     readonly post: {
       readonly id: string;
       readonly likedByCurrentUser: boolean | null | undefined;
-      readonly likesCount: number;
+      readonly postLikesCount: number;
     };
   } | null | undefined;
 };
@@ -77,7 +77,7 @@ v2 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "likesCount",
+            "name": "postLikesCount",
             "storageKey": null
           },
           {
@@ -118,16 +118,16 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "787abb88fed3625f29c0a81688e02000",
+    "cacheID": "0847f3b35daf90371a6d645b484186f9",
     "id": null,
     "metadata": {},
     "name": "PostCardLikeMutation",
     "operationKind": "mutation",
-    "text": "mutation PostCardLikeMutation(\n  $id: ID!\n  $doesLike: Boolean!\n) {\n  likePost(id: $id, doesLike: $doesLike) {\n    post {\n      id\n      likesCount\n      likedByCurrentUser\n    }\n  }\n}\n"
+    "text": "mutation PostCardLikeMutation(\n  $id: ID!\n  $doesLike: Boolean!\n) {\n  likePost(id: $id, doesLike: $doesLike) {\n    post {\n      id\n      postLikesCount\n      likedByCurrentUser\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "99d0d6d63efae1c6d8246c23864d0453";
+(node as any).hash = "0185a2823176df0527117d64adaa4a40";
 
 export default node;
