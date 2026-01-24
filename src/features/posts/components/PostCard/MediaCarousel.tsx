@@ -176,7 +176,7 @@ export const MediaCarousel = ({ post }: MediaCarouselProps) => {
           <>
             <button
               onClick={prevSlide}
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-full p-2 transition-all duration-200 z-10 cursor-pointer"
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-full p-2 transition-all duration-200 z-10"
               aria-label="Previous media"
             >
               <FaChevronLeft className="w-6 h-6" />
@@ -184,7 +184,7 @@ export const MediaCarousel = ({ post }: MediaCarouselProps) => {
 
             <button
               onClick={nextSlide}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-full p-2 transition-all duration-200 z-10 cursor-pointer"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-full p-2 transition-all duration-200 z-10"
               aria-label="Next media"
             >
               <FaChevronRight className="w-6 h-6" />
@@ -210,7 +210,7 @@ export const MediaCarousel = ({ post }: MediaCarouselProps) => {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-200 cursor-pointer ${
+              className={`w-2 h-2 rounded-full transition-all duration-200 ${
                 index === currentIndex
                   ? "bg-white scale-110"
                   : "bg-white bg-opacity-50 hover:bg-opacity-80"

@@ -37,13 +37,13 @@ const ErrorFallback = ({
             <div className="flex gap-3">
               <button
                 onClick={resetErrorBoundary}
-                className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer"
+                className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-medium transition-colors"
               >
                 Try Again
               </button>
               <button
                 onClick={() => window.location.reload()}
-                className="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer"
+                className="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg font-medium transition-colors"
               >
                 Reload Page
               </button>
@@ -67,7 +67,7 @@ const ErrorFallback = ({
         </div>
         <button
           onClick={handleReturnToLogin}
-          className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-medium transition-colors cursor-pointer"
+          className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-medium transition-colors"
         >
           Return to Login
         </button>

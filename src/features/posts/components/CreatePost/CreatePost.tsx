@@ -153,7 +153,7 @@ export const CreatePost = ({
           <button
             onClick={handleClose}
             disabled={isSubmitting}
-            className="text-gray-400 hover:text-white transition-colors p-2 disabled:opacity-50 cursor-pointer"
+            className="text-gray-400 hover:text-white transition-colors p-2 disabled:opacity-50"
             aria-label="Close"
           >
             <FaTimes className="w-5 h-5" />
@@ -244,7 +244,7 @@ export const CreatePost = ({
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-600 hover:border-green-500 rounded-lg transition-colors text-gray-400 hover:text-gray-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-600 hover:border-green-500 rounded-lg transition-colors text-gray-400 hover:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <FaImage className="w-5 h-5" />
                 <span>Add Photos or Videos</span>
@@ -291,14 +291,14 @@ export const CreatePost = ({
               <button
                 onClick={handleClose}
                 disabled={isSubmitting}
-                className="px-6 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="px-6 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={!canSubmit}
-                className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "Posting..." : "Post"}
               </button>

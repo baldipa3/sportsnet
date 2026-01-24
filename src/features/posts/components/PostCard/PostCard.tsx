@@ -159,7 +159,7 @@ export const PostCard = ({
                   className="flex items-center gap-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <FaHeart
-                    className={`w-5 h-5 transition-colors cursor-pointer ${
+                    className={`w-5 h-5 transition-colors ${
                       post.likedByCurrentUser
                         ? "text-green-500"
                         : "text-gray-500"
@@ -174,7 +174,7 @@ export const PostCard = ({
               {/* Comments */}
               <button
                 onClick={() => setIsCommentSectionOpen(!isCommentSectionOpen)}
-                className="flex items-center gap-1 text-gray-400 hover:text-white transition-all cursor-pointer"
+                className="flex items-center gap-1 text-gray-400 hover:text-white transition-all"
               >
                 <FaComment
                   className={`w-5 h-5 ${

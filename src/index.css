@@ -14,3 +14,9 @@
     background-color: transparent;
   }
 }
+
+@layer base {
+  button {
+    cursor: pointer;
+  }
+}

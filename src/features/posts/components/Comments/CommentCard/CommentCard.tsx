@@ -205,7 +205,7 @@ const ReplyCard = ({
             {/* Reply Button */}
             <button
               onClick={handleReplyClick}
-              className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors group cursor-pointer"
+              className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors group"
               aria-label="Reply to comment"
             >
               <FaReply className="w-4 h-4" />

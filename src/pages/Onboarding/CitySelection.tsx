@@ -59,7 +59,7 @@ export const CitySelection: React.FC = () => {
                 <button
                   key={country.id}
                   onClick={() => setSelectedCountry(country)}
-                  className="p-6 bg-gradient-to-br from-[#1E1E1E] to-[#2A2A2A] rounded-xl hover:from-[#222222] hover:to-[#333333] transition-all hover:scale-105 hover:ring-2 hover:ring-[#8BC34A] cursor-pointer"
+                  className="p-6 bg-gradient-to-br from-[#1E1E1E] to-[#2A2A2A] rounded-xl hover:from-[#222222] hover:to-[#333333] transition-all hover:scale-105 hover:ring-2 hover:ring-[#8BC34A]"
                 >
                   <div className="mb-2">
                     {country.code && (
@@ -83,7 +83,7 @@ export const CitySelection: React.FC = () => {
           <div>
             <button
               onClick={() => setSelectedCountry(null)}
-              className="mb-6 text-[#8BC34A] hover:underline flex items-center gap-2 cursor-pointer"
+              className="mb-6 text-[#8BC34A] hover:underline flex items-center gap-2"
             >
               ← Change country (
               {selectedCountry.code && (
@@ -108,7 +108,7 @@ export const CitySelection: React.FC = () => {
                 <button
                   key={city.id}
                   onClick={() => handleCitySelection(city)}
-                  className="p-6 bg-gradient-to-br from-[#1E1E1E] to-[#2A2A2A] rounded-xl hover:from-[#222222] hover:to-[#333333] transition-all hover:scale-105 hover:ring-2 hover:ring-[#8BC34A] cursor-pointer"
+                  className="p-6 bg-gradient-to-br from-[#1E1E1E] to-[#2A2A2A] rounded-xl hover:from-[#222222] hover:to-[#333333] transition-all hover:scale-105 hover:ring-2 hover:ring-[#8BC34A]"
                 >
                   <div className="text-lg">{city.name}</div>
                 </button>

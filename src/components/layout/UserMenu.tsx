@@ -39,7 +39,7 @@ export const UserMenu = () => {
       {open && (
         <div className="absolute right-0 mt-2 w-52 origin-top-right rounded-xl border border-gray-700 bg-gray-800 p-1 text-sm text-white shadow-lg z-50">
           {/* Edit Button */}
-          <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 hover:bg-white/10 cursor-pointer">
+          <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 hover:bg-white/10">
             <FaEdit className="w-4 h-4 text-white/30" />
             Edit
             {/* <kbd className="ml-auto hidden font-sans text-xs text-white/50 group-hover:inline">
@@ -48,7 +48,7 @@ export const UserMenu = () => {
           </button>
 
           {/* Duplicate Button */}
-          <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 hover:bg-white/10 cursor-pointer">
+          <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 hover:bg-white/10">
             <FaCopy className="w-4 h-4 text-white/30" />
             Duplicate
           </button>
@@ -56,7 +56,7 @@ export const UserMenu = () => {
           <div className="my-1 h-px bg-white/5" />
 
           {/* Archive Button */}
-          <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 hover:bg-white/10 cursor-pointer">
+          <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 hover:bg-white/10">
             <FaArchive className="w-4 h-4 text-white/30" />
             Archive
           </button>
@@ -64,7 +64,7 @@ export const UserMenu = () => {
           {/* Log Out Button */}
           <button
             onClick={handleLogout}
-            className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 hover:bg-white/10 cursor-pointer"
+            className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 hover:bg-white/10"
           >
             <FaSignOutAlt className="w-4 h-4 text-white/30" />
             Log Out

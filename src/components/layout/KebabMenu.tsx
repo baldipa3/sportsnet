@@ -30,7 +30,7 @@ export const KebabMenu = ({
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`text-gray-400 hover:text-white transition-colors p-2 ${buttonClassName} cursor-pointer`}
+        className={`text-gray-400 hover:text-white transition-colors p-2 ${buttonClassName}`}
         aria-label="Options"
       >
         <FaEllipsisV className="w-5 h-5" />
@@ -52,7 +52,7 @@ export const KebabMenu = ({
               <button
                 key={index}
                 onClick={() => handleOptionClick(option.onClick)}
-                className={`w-full text-left px-4 py-3 hover:bg-[#333333] transition-colors flex items-center gap-2 cursor-pointer ${
+                className={`w-full text-left px-4 py-3 hover:bg-[#333333] transition-colors flex items-center gap-2 ${
                   option.variant === "danger" ? "text-red-400" : "text-gray-300"
                 }`}
               >
