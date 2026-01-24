@@ -88,3 +88,35 @@ export const validateComment = (content: string): string | null => {
 
   return null; // Valid
 };
+
+/**
+ * Scroll to a specific comment by ID with highlight effect
+ * Uses data-comment-id attribute for targeting
+ */
+export const scrollToComment = (
+  commentId: string,
+  containerRef: React.RefObject<HTMLDivElement | null>
+): void => {
+  // Wait for DOM update after React render
+  requestAnimationFrame(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const element = container.querySelector(
+      `[data-comment-id="${commentId}"]`
+    ) as HTMLElement | null;
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      // Add highlight effect
+      element.classList.add("comment-highlight-new");
+      setTimeout(() => {
+        element.classList.remove("comment-highlight-new");
+      }, 2000);
+    }
+  });
+};

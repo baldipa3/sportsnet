@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { FaTimes, FaPaperPlane } from "react-icons/fa";
+import { FaTimes, FaPaperPlane, FaSmile } from "react-icons/fa";
+import EmojiPicker, { type EmojiClickData, Theme } from "emoji-picker-react";
 import { graphql, useMutation } from "react-relay";
 import { type CreateCommentProps } from "../types";
 import { validateComment } from "../utils";
+import type { CreateCommentMutation as CreateCommentMutationType } from "./__generated__/CreateCommentMutation.graphql";
 
 const CreateCommentMutation = graphql`
   mutation CreateCommentMutation(
@@ -16,7 +18,7 @@ const CreateCommentMutation = graphql`
       postId: $postId
       parentCommentId: $parentCommentId
     ) {
-      commentEdge @appendEdge(connections: $connections) {
+      commentEdge @prependEdge(connections: $connections) {
         cursor
         node {
           id
@@ -48,9 +50,11 @@ export const CreateComment = ({
   onSubmitSuccess,
 }: CreateCommentProps) => {
   const [content, setContent] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const emojiPickerRef = useRef<HTMLDivElement>(null);
 
-  const [commitCreateMutation, isCreating] = useMutation(CreateCommentMutation);
+  const [commitCreateMutation, isCreating] = useMutation<CreateCommentMutationType>(CreateCommentMutation);
 
   // Auto-resize textarea based on content
   useEffect(() => {
@@ -66,11 +70,53 @@ export const CreateComment = ({
     if (replyingToUserName && textareaRef.current) {
       textareaRef.current.focus();
       setContent(`@${replyingToUserName} `);
+    } else if (!replyingToUserName) {
+      // Clear content when reply is cancelled
+      setContent("");
     }
   }, [replyingToUserName]);
 
+  // Close emoji picker when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target as Node)
+      ) {
+        setShowEmojiPicker(false);
+      }
+    };
+
+    if (showEmojiPicker) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showEmojiPicker]);
+
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
+  };
+
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const newContent =
+      content.substring(0, start) + emojiData.emoji + content.substring(end);
+
+    setContent(newContent);
+
+    // Set cursor position after the emoji
+    setTimeout(() => {
+      textarea.focus();
+      const newCursorPos = start + emojiData.emoji.length;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+    }, 0);
   };
 
   const handleSubmit = () => {
@@ -82,13 +128,9 @@ export const CreateComment = ({
       return;
     }
 
-    // Determine which connection to use
-    // For replies: use parentConnectionId, for top-level comments: use connectionId
     const targetConnectionId = parentCommentId
       ? parentConnectionId
       : connectionId;
-
-    console.log("targetConnectionId:", targetConnectionId);
 
     if (!targetConnectionId) {
       console.error("No connection ID available");
@@ -102,26 +144,26 @@ export const CreateComment = ({
         parentCommentId,
         connections: [targetConnectionId],
       },
-      onCompleted: () => {
+      onCompleted: (response) => {
+        const newCommentId = response.createComment?.commentEdge?.node?.id;
         setContent("");
+        setShowEmojiPicker(false);
         if (parentCommentId) {
-          onCancelReply(); // Clear reply state
+          onCancelReply();
         }
-        onSubmitSuccess?.();
+        if (newCommentId) {
+          onSubmitSuccess?.(newCommentId);
+        }
       },
       onError: (error) => {
         console.error("Failed to create comment:", error);
-        // TODO: Show toast notification
       },
       updater: (store, data) => {
-        // The @appendEdge directive handles adding the comment to the connection
-        // But we need to ensure the parent's count is updated
         const response = data as any;
         if (!response?.createComment) return;
 
         const parent = response.createComment.parent;
         if (parent) {
-          // Update commentsCount for Post or repliesCount for Comment
           if ("commentsCount" in parent && parent.id) {
             const post = store.get(parent.id);
             if (post && parent.commentsCount !== undefined) {
@@ -142,6 +184,9 @@ export const CreateComment = ({
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit();
+    } else if (e.key === "Escape" && replyingToUserName) {
+      e.preventDefault();
+      onCancelReply();
     }
   };
 
@@ -178,7 +223,7 @@ export const CreateComment = ({
 
       {/* Input Area */}
       <div className="p-4">
-        <div className="flex gap-3 items-end">
+        <div className="flex gap-3 items-end relative">
           <textarea
             ref={textareaRef}
             value={content}
@@ -191,6 +236,17 @@ export const CreateComment = ({
             rows={1}
           />
 
+          {/* Emoji Button */}
+          <button
+            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+            className="bg-gray-700 hover:bg-gray-600 rounded-full p-3 transition-colors flex-shrink-0"
+            aria-label="Add emoji"
+            type="button"
+          >
+            <FaSmile className="w-5 h-5 text-yellow-400" />
+          </button>
+
+          {/* Send Button */}
           <button
             onClick={handleSubmit}
             disabled={!isValid || isCreating}
@@ -203,6 +259,21 @@ export const CreateComment = ({
               <FaPaperPlane className="w-5 h-5 text-white" />
             )}
           </button>
+
+          {/* Emoji Picker Popup */}
+          {showEmojiPicker && (
+            <div
+              ref={emojiPickerRef}
+              className="absolute bottom-full right-0 mb-2 z-50"
+            >
+              <EmojiPicker
+                onEmojiClick={handleEmojiClick}
+                theme={Theme.DARK}
+                width={350}
+                height={400}
+              />
+            </div>
+          )}
         </div>
 
         {/* Character Counter */}

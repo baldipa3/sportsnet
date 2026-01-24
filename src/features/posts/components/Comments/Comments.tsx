@@ -1,16 +1,17 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaTimes, FaComment } from "react-icons/fa";
 import { graphql, usePaginationFragment } from "react-relay";
 import { type CommentsProps } from "./types";
 import { useCurrentUser } from "@/utils/CurrentUserContext";
 import { CommentCard } from "./CommentCard";
 import { CreateComment } from "./CreateComment";
+import { scrollToComment } from "./utils";
 
 const CommentsFragment = graphql`
   fragment CommentsFragment on Post
   @refetchable(queryName: "CommentsPaginationQuery")
   @argumentDefinitions(
-    count: { type: "Int", defaultValue: 10 }
+    count: { type: "Int", defaultValue: 20 }
     cursor: { type: "String" }
   ) {
     id
@@ -35,12 +36,12 @@ const CommentsFragment = graphql`
 export const Comments = ({ postFragmentKey, onClose }: CommentsProps) => {
   const currentUser = useCurrentUser();
   const listRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const loadMoreTriggerRef = useRef<HTMLDivElement>(null);
 
   // Pagination fragment for comments
-  const { data, loadNext, hasNext, isLoadingNext } = usePaginationFragment(
-    CommentsFragment,
-    postFragmentKey
-  );
+  const { data, loadNext, hasNext, isLoadingNext } =
+    usePaginationFragment(CommentsFragment, postFragmentKey);
 
   // Reply state: track which comment we're replying to
   const [replyState, setReplyState] = useState<{
@@ -49,15 +50,55 @@ export const Comments = ({ postFragmentKey, onClose }: CommentsProps) => {
     userName: string;
   } | null>(null);
 
-  // Calculate total comments from edges
-  const totalComments = data.comments?.edges?.length || 0;
+  // Track which comment should auto-expand (for newly created replies)
+  const [expandedCommentId, setExpandedCommentId] = useState<string | null>(null);
 
-  // Get connection ID for appending top-level comments (use __id from fragment)
+  const comments = data.comments?.edges || [];
+
+  // Scroll container into view when it opens
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  }, []);
+
+  // Infinite scroll: Intersection Observer for loading older comments at the bottom
+  useEffect(() => {
+    if (!loadMoreTriggerRef.current || !hasNext || isLoadingNext)
+      return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const firstEntry = entries[0];
+        if (firstEntry.isIntersecting && hasNext && !isLoadingNext) {
+          loadNext(20);
+        }
+      },
+      {
+        root: listRef.current,
+        rootMargin: "200px",
+        threshold: 0,
+      }
+    );
+
+    observer.observe(loadMoreTriggerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasNext, isLoadingNext, loadNext]);
+
+  // Get connection ID for appending top-level comments
   const postConnectionId = data.comments?.__id;
 
-  const handleReply = (parentCommentId: string, connectionId: string, userName: string) => {
-    // parentCommentId: the comment we're replying to (will be parent of new reply)
-    // connectionId: the connection to append the new reply to (from __id)
+  const handleReply = (
+    parentCommentId: string,
+    connectionId: string,
+    userName: string
+  ) => {
     setReplyState({ commentId: parentCommentId, connectionId, userName });
   };
 
@@ -65,31 +106,25 @@ export const Comments = ({ postFragmentKey, onClose }: CommentsProps) => {
     setReplyState(null);
   };
 
-  const handleSubmitSuccess = () => {
-    // Only scroll to bottom if the user is already near the bottom
-    // This prevents jarring jumps when user is reading comments higher up
-    setTimeout(() => {
-      if (listRef.current) {
-        const { scrollTop, scrollHeight, clientHeight } = listRef.current;
-        const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+  const handleSubmitSuccess = (newCommentId: string) => {
+    // If this was a reply, expand the parent comment first
+    if (replyState?.commentId) {
+      setExpandedCommentId(replyState.commentId);
+    }
 
-        // Only auto-scroll if user is within 100px of bottom
-        if (distanceFromBottom < 100) {
-          listRef.current.scrollTop = scrollHeight;
-        }
-      }
-    }, 100);
+    // Wait for DOM update, then scroll to the new comment
+    setTimeout(() => {
+      scrollToComment(newCommentId, listRef);
+    }, 150);
   };
 
-  const comments = data.comments?.edges || [];
-
   return (
-    <div className="border-t border-gray-700 bg-[#1a1a1a]">
+    <div
+      ref={containerRef}
+      className="border-t border-gray-700 bg-[#1a1a1a] flex flex-col h-[600px]"
+    >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700">
-        <h3 className="text-lg font-bold text-white">
-          Comments {totalComments > 0 && `• ${totalComments}`}
-        </h3>
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700 flex-shrink-0">
         <button
           onClick={onClose}
           className="text-gray-400 hover:text-white transition-colors"
@@ -99,13 +134,13 @@ export const Comments = ({ postFragmentKey, onClose }: CommentsProps) => {
         </button>
       </div>
 
-      {/* Comment List */}
+      {/* Comment List - Scrollable area */}
       {postConnectionId && (
         <>
           {comments.length === 0 ? (
             <div
               ref={listRef}
-              className="flex flex-col items-center justify-center p-12 min-h-[200px]"
+              className="flex flex-col items-center justify-center p-12 flex-1 overflow-y-auto"
             >
               <FaComment className="w-16 h-16 text-gray-600 mb-4" />
               <p className="text-gray-400 text-center">
@@ -115,40 +150,37 @@ export const Comments = ({ postFragmentKey, onClose }: CommentsProps) => {
           ) : (
             <div
               ref={listRef}
-              className="overflow-y-auto px-4 py-6 space-y-4 max-h-[500px]"
+              className="overflow-y-auto px-4 py-6 space-y-4 flex-1"
               style={{ scrollbarWidth: "thin" }}
             >
-              {comments.map((edge) => (
-                edge?.node && (
-                  <CommentCard
-                    key={edge.node.id}
-                    commentFragmentKey={edge.node}
-                    depth={0}
-                    onReply={handleReply}
-                    currentUserId={currentUser?.id || ""}
-                    postId={data.id}
-                    postConnectionId={postConnectionId}
-                  />
-                )
-              ))}
+              {comments.map(
+                (edge) =>
+                  edge?.node && (
+                    <CommentCard
+                      key={edge.node.id}
+                      commentFragmentKey={edge.node}
+                      onReply={handleReply}
+                      currentUserId={currentUser?.id || ""}
+                      postId={data.id}
+                      postConnectionId={postConnectionId}
+                      forceExpand={expandedCommentId === edge.node.id}
+                      onExpandHandled={() => setExpandedCommentId(null)}
+                    />
+                  )
+              )}
 
-              {/* Load More Button */}
+              {/* Infinite Scroll Trigger at BOTTOM for loading older comments */}
               {hasNext && (
-                <div className="flex justify-center mt-6">
-                  <button
-                    onClick={() => loadNext(10)}
-                    disabled={isLoadingNext}
-                    className="px-6 py-2 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed rounded-lg text-white transition-colors"
-                  >
-                    {isLoadingNext ? (
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        Loading...
-                      </div>
-                    ) : (
-                      "Load More Comments"
-                    )}
-                  </button>
+                <div
+                  ref={loadMoreTriggerRef}
+                  className="flex justify-center py-4"
+                >
+                  {isLoadingNext && (
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <div className="w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+                      <span>Loading older comments...</span>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -156,16 +188,18 @@ export const Comments = ({ postFragmentKey, onClose }: CommentsProps) => {
         </>
       )}
 
-      {/* Comment Input */}
-      <CreateComment
-        postId={data.id}
-        connectionId={postConnectionId}
-        parentCommentId={replyState?.commentId}
-        parentConnectionId={replyState?.connectionId}
-        replyingToUserName={replyState?.userName}
-        onCancelReply={handleCancelReply}
-        onSubmitSuccess={handleSubmitSuccess}
-      />
+      {/* Comment Input - Sticky at bottom */}
+      <div className="flex-shrink-0">
+        <CreateComment
+          postId={data.id}
+          connectionId={postConnectionId}
+          parentCommentId={replyState?.commentId}
+          parentConnectionId={replyState?.connectionId}
+          replyingToUserName={replyState?.userName}
+          onCancelReply={handleCancelReply}
+          onSubmitSuccess={handleSubmitSuccess}
+        />
+      </div>
     </div>
   );
 };

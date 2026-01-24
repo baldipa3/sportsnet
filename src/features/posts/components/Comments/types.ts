@@ -9,25 +9,26 @@ export interface CommentsProps {
 
 export interface CommentCardProps {
   commentFragmentKey: CommentCardFragment$key;
-  depth: number; // Not used internally but kept for interface consistency
   onReply: (
     parentCommentId: string,
     connectionId: string,
     userName: string
   ) => void;
   currentUserId: string;
-  postId: string; // Not used internally but required for child components
+  postId: string;
   postConnectionId: string;
+  forceExpand?: boolean; // Force expand replies section (for newly created replies)
+  onExpandHandled?: () => void; // Callback when forceExpand has been processed
 }
 
 export interface CreateCommentProps {
   postId: string;
-  connectionId?: string; // For Relay @appendEdge (top-level comments)
+  connectionId?: string; // For Relay @prependEdge (top-level comments)
   parentCommentId?: string;
-  parentConnectionId?: string; // For Relay @appendEdge (replies)
+  parentConnectionId?: string; // For Relay @prependEdge (replies)
   replyingToUserName?: string;
   onCancelReply: () => void;
-  onSubmitSuccess?: () => void;
+  onSubmitSuccess?: (newCommentId: string) => void;
 }
 
 export interface CommentUser {

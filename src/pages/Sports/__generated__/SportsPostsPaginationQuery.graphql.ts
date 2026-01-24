@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<16c2f9b7ab1c0fc100610c4c493eebc9>>
+ * @generated SignedSource<<b0f42ba7285d2cf25f28b1b2ffd47257>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -94,7 +94,7 @@ v7 = [
   {
     "kind": "Literal",
     "name": "first",
-    "value": 10
+    "value": 20
   }
 ],
 v8 = {
@@ -151,14 +151,21 @@ v12 = {
   ],
   "storageKey": null
 },
-v13 = {
+v13 = [
+  {
+    "kind": "Literal",
+    "name": "first",
+    "value": 10
+  }
+],
+v14 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "cursor",
   "storageKey": null
 },
-v14 = {
+v15 = {
   "alias": null,
   "args": null,
   "concreteType": "PageInfo",
@@ -183,7 +190,7 @@ v14 = {
   ],
   "storageKey": null
 },
-v15 = {
+v16 = {
   "kind": "ClientExtension",
   "selections": [
     {
@@ -341,7 +348,7 @@ return {
                                       (v12/*: any*/),
                                       {
                                         "alias": null,
-                                        "args": (v7/*: any*/),
+                                        "args": (v13/*: any*/),
                                         "concreteType": "CommentConnection",
                                         "kind": "LinkedField",
                                         "name": "replies",
@@ -375,18 +382,18 @@ return {
                                                 ],
                                                 "storageKey": null
                                               },
-                                              (v13/*: any*/)
+                                              (v14/*: any*/)
                                             ],
                                             "storageKey": null
                                           },
-                                          (v14/*: any*/),
-                                          (v15/*: any*/)
+                                          (v15/*: any*/),
+                                          (v16/*: any*/)
                                         ],
                                         "storageKey": "replies(first:10)"
                                       },
                                       {
                                         "alias": null,
-                                        "args": (v7/*: any*/),
+                                        "args": (v13/*: any*/),
                                         "filters": null,
                                         "handle": "connection",
                                         "key": "CommentCardWithRepliesFragment_replies",
@@ -397,14 +404,14 @@ return {
                                     ],
                                     "storageKey": null
                                   },
-                                  (v13/*: any*/)
+                                  (v14/*: any*/)
                                 ],
                                 "storageKey": null
                               },
-                              (v14/*: any*/),
-                              (v15/*: any*/)
+                              (v15/*: any*/),
+                              (v16/*: any*/)
                             ],
-                            "storageKey": "comments(first:10)"
+                            "storageKey": "comments(first:20)"
                           },
                           {
                             "alias": null,
@@ -450,11 +457,11 @@ return {
                         ],
                         "storageKey": null
                       },
-                      (v13/*: any*/)
+                      (v14/*: any*/)
                     ],
                     "storageKey": null
                   },
-                  (v14/*: any*/)
+                  (v15/*: any*/)
                 ],
                 "storageKey": null
               },
@@ -477,12 +484,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "913accb97292ea65d487dfee36ec866b",
+    "cacheID": "757cbe52feddcdcd14498b497a57af75",
     "id": null,
     "metadata": {},
     "name": "SportsPostsPaginationQuery",
     "operationKind": "query",
-    "text": "query SportsPostsPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...SportsPostsFragment_1G22uz\n    id\n  }\n}\n\nfragment CommentCardFragment on Comment {\n  id\n  content\n  insertedAt\n  wasEdited\n  commentLikesCount\n  repliesCount\n  parentCommentId\n  user {\n    id\n    name\n    surname\n  }\n}\n\nfragment CommentCardWithRepliesFragment on Comment {\n  ...CommentCardFragment\n  replies(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  id\n}\n\nfragment CommentsFragment on Post {\n  id\n  comments(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        ...CommentCardWithRepliesFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  postLikesCount\n  likedByCurrentUser\n  wasEdited\n  commentsCount\n  ...CommentsFragment\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n\nfragment SportsPostsFragment_1G22uz on SportCityFeed {\n  id\n  posts(first: $count, after: $cursor) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "query SportsPostsPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...SportsPostsFragment_1G22uz\n    id\n  }\n}\n\nfragment CommentCardFragment on Comment {\n  id\n  content\n  insertedAt\n  wasEdited\n  commentLikesCount\n  repliesCount\n  parentCommentId\n  user {\n    id\n    name\n    surname\n  }\n}\n\nfragment CommentCardWithRepliesFragment on Comment {\n  ...CommentCardFragment\n  replies(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  id\n}\n\nfragment CommentsFragment on Post {\n  id\n  comments(first: 20) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        ...CommentCardWithRepliesFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  postLikesCount\n  likedByCurrentUser\n  wasEdited\n  commentsCount\n  ...CommentsFragment\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n\nfragment SportsPostsFragment_1G22uz on SportCityFeed {\n  id\n  posts(first: $count, after: $cursor) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();

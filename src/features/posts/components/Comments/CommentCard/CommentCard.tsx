@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaReply, FaTrash, FaFlag, FaChevronDown } from "react-icons/fa";
 import {
   graphql,
@@ -35,6 +35,7 @@ const CommentCardFragment = graphql`
 `;
 
 // Fragment for top-level comments with replies capability
+// Uses forward pagination (first/after) to show newest replies first (backend returns DESC)
 const CommentCardWithRepliesFragment = graphql`
   fragment CommentCardWithRepliesFragment on Comment
   @refetchable(queryName: "CommentCardRepliesPaginationQuery")
@@ -73,12 +74,12 @@ interface ReplyCardProps extends CommentCardProps {
   parentConnectionId: string;
 }
 
-// Component for replies (depth > 0) - no pagination needed
 const ReplyCard = ({
   commentFragmentKey,
   onReply,
   currentUserId,
   parentConnectionId,
+  postId,
 }: ReplyCardProps) => {
   const comment = useFragment(CommentCardFragment, commentFragmentKey);
   const [commitDeleteMutation] = useMutation(DeleteCommentMutation);
@@ -99,6 +100,13 @@ const ReplyCard = ({
             (parentComment.getValue("repliesCount") as number) || 0;
           parentComment.setValue(Math.max(0, currentCount - 1), "repliesCount");
         }
+
+        // Update post's commentsCount
+        const post = store.get(postId);
+        if (post) {
+          const currentCount = (post.getValue("commentsCount") as number) || 0;
+          post.setValue(Math.max(0, currentCount - 1), "commentsCount");
+        }
       },
       optimisticUpdater: (store) => {
         // Optimistically update repliesCount
@@ -107,6 +115,13 @@ const ReplyCard = ({
           const currentCount =
             (parentComment.getValue("repliesCount") as number) || 0;
           parentComment.setValue(Math.max(0, currentCount - 1), "repliesCount");
+        }
+
+        // Optimistically update post's commentsCount
+        const post = store.get(postId);
+        if (post) {
+          const currentCount = (post.getValue("commentsCount") as number) || 0;
+          post.setValue(Math.max(0, currentCount - 1), "commentsCount");
         }
       },
     });
@@ -143,7 +158,10 @@ const ReplyCard = ({
   const insertedAtText = comment.insertedAt || new Date().toISOString();
 
   return (
-    <div className="ml-12 border-l-2 border-gray-700 pl-4">
+    <div
+      data-comment-id={comment.id}
+      className="ml-12 border-l-2 border-gray-700 pl-4"
+    >
       <div className="flex gap-3 p-2 hover:bg-[#222222] rounded-lg transition-colors">
         {/* Avatar */}
         <div className="flex-shrink-0">
@@ -187,7 +205,7 @@ const ReplyCard = ({
             {/* Reply Button */}
             <button
               onClick={handleReplyClick}
-              className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors group"
+              className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors group cursor-pointer"
               aria-label="Reply to comment"
             >
               <FaReply className="w-4 h-4" />
@@ -208,6 +226,8 @@ const ReplyCard = ({
 // Extended props for TopLevelCommentCard that includes post's connection ID
 interface TopLevelCommentCardProps extends CommentCardProps {
   postConnectionId: string;
+  forceExpand?: boolean;
+  onExpandHandled?: () => void;
 }
 
 // Component for top-level comments (depth === 0) - with replies pagination
@@ -217,19 +237,32 @@ const TopLevelCommentCard = ({
   currentUserId,
   postId,
   postConnectionId,
+  forceExpand,
+  onExpandHandled,
 }: TopLevelCommentCardProps) => {
   // Read the base comment data
   const comment = useFragment(CommentCardFragment, commentFragmentKey);
   const [isRepliesExpanded, setIsRepliesExpanded] = useState(false);
   const [commitDeleteMutation] = useMutation(DeleteCommentMutation);
 
-  // This hook is only for replies pagination
+  // Auto-expand when forceExpand is triggered (for newly created replies)
+  useEffect(() => {
+    if (forceExpand && !isRepliesExpanded) {
+      setIsRepliesExpanded(true);
+      onExpandHandled?.();
+    }
+  }, [forceExpand, isRepliesExpanded, onExpandHandled]);
+
+  // This hook is only for replies pagination (forward - newest first from backend)
   const {
     data: repliesData,
     loadNext,
     hasNext,
     isLoadingNext,
-  } = usePaginationFragment<any, any>(CommentCardWithRepliesFragment, commentFragmentKey);
+  } = usePaginationFragment<any, any>(
+    CommentCardWithRepliesFragment,
+    commentFragmentKey
+  );
 
   // Explicitly type repliesData to ensure TypeScript knows about the replies field
   const typedRepliesData = repliesData as CommentCardWithRepliesFragment$data;
@@ -301,7 +334,7 @@ const TopLevelCommentCard = ({
   const insertedAtText = comment.insertedAt || new Date().toISOString();
 
   return (
-    <div>
+    <div data-comment-id={comment.id}>
       <div className="flex gap-3 p-2 hover:bg-[#222222] rounded-lg transition-colors">
         {/* Avatar */}
         <div className="flex-shrink-0">
@@ -383,22 +416,23 @@ const TopLevelCommentCard = ({
         <div className="mt-2 space-y-2">
           {typedRepliesData.replies?.edges?.map(
             (
-              edge: {
-                readonly node:
-                  | {
-                      readonly id: string;
-                      readonly " $fragmentSpreads": FragmentRefs<"CommentCardFragment">;
-                    }
-                  | null
-                  | undefined;
-              } | null
-              | undefined
+              edge:
+                | {
+                    readonly node:
+                      | {
+                          readonly id: string;
+                          readonly " $fragmentSpreads": FragmentRefs<"CommentCardFragment">;
+                        }
+                      | null
+                      | undefined;
+                  }
+                | null
+                | undefined
             ) =>
               edge?.node && (
                 <ReplyCard
                   key={edge.node.id}
                   commentFragmentKey={edge.node}
-                  depth={0}
                   onReply={onReply}
                   currentUserId={currentUserId}
                   postId={postId}
@@ -408,7 +442,7 @@ const TopLevelCommentCard = ({
               )
           )}
 
-          {/* Load More Replies */}
+          {/* Load More Replies (older replies) */}
           {hasNext && (
             <button
               onClick={() => loadNext(10)}

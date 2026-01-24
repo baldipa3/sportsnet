@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<80bfef01589b3add172710c322f1db28>>
+ * @generated SignedSource<<6074b9c2fcca0543c325770728068451>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -104,7 +104,7 @@ v9 = [
   {
     "kind": "Literal",
     "name": "first",
-    "value": 10
+    "value": 20
   }
 ],
 v10 = {
@@ -161,21 +161,28 @@ v14 = {
   ],
   "storageKey": null
 },
-v15 = {
+v15 = [
+  {
+    "kind": "Literal",
+    "name": "first",
+    "value": 10
+  }
+],
+v16 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v16 = {
+v17 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "cursor",
   "storageKey": null
 },
-v17 = {
+v18 = {
   "alias": null,
   "args": null,
   "concreteType": "PageInfo",
@@ -200,7 +207,7 @@ v17 = {
   ],
   "storageKey": null
 },
-v18 = {
+v19 = {
   "kind": "ClientExtension",
   "selections": [
     {
@@ -368,7 +375,7 @@ return {
                               (v14/*: any*/),
                               {
                                 "alias": null,
-                                "args": (v9/*: any*/),
+                                "args": (v15/*: any*/),
                                 "concreteType": "CommentConnection",
                                 "kind": "LinkedField",
                                 "name": "replies",
@@ -398,40 +405,40 @@ return {
                                           (v12/*: any*/),
                                           (v13/*: any*/),
                                           (v14/*: any*/),
-                                          (v15/*: any*/)
+                                          (v16/*: any*/)
                                         ],
                                         "storageKey": null
                                       },
-                                      (v16/*: any*/)
+                                      (v17/*: any*/)
                                     ],
                                     "storageKey": null
                                   },
-                                  (v17/*: any*/),
-                                  (v18/*: any*/)
+                                  (v18/*: any*/),
+                                  (v19/*: any*/)
                                 ],
                                 "storageKey": "replies(first:10)"
                               },
                               {
                                 "alias": null,
-                                "args": (v9/*: any*/),
+                                "args": (v15/*: any*/),
                                 "filters": null,
                                 "handle": "connection",
                                 "key": "CommentCardWithRepliesFragment_replies",
                                 "kind": "LinkedHandle",
                                 "name": "replies"
                               },
-                              (v15/*: any*/)
+                              (v16/*: any*/)
                             ],
                             "storageKey": null
                           },
-                          (v16/*: any*/)
+                          (v17/*: any*/)
                         ],
                         "storageKey": null
                       },
-                      (v17/*: any*/),
-                      (v18/*: any*/)
+                      (v18/*: any*/),
+                      (v19/*: any*/)
                     ],
-                    "storageKey": "comments(first:10)"
+                    "storageKey": "comments(first:20)"
                   },
                   {
                     "alias": null,
@@ -501,12 +508,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "005b9137c7dda0e5e31599838dcb7c2c",
+    "cacheID": "e822c1cc6033faa6958278c6ffc0cbf9",
     "id": null,
     "metadata": {},
     "name": "CreatePostMutation",
     "operationKind": "mutation",
-    "text": "mutation CreatePostMutation(\n  $caption: String!\n  $sportId: ID!\n  $cityId: ID!\n  $media: [Upload!]\n) {\n  createPost(caption: $caption, sportId: $sportId, cityId: $cityId, media: $media) {\n    postEdge {\n      node {\n        ...PostCardFragment\n        id\n      }\n    }\n  }\n}\n\nfragment CommentCardFragment on Comment {\n  id\n  content\n  insertedAt\n  wasEdited\n  commentLikesCount\n  repliesCount\n  parentCommentId\n  user {\n    id\n    name\n    surname\n  }\n}\n\nfragment CommentCardWithRepliesFragment on Comment {\n  ...CommentCardFragment\n  replies(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  id\n}\n\nfragment CommentsFragment on Post {\n  id\n  comments(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        ...CommentCardWithRepliesFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  postLikesCount\n  likedByCurrentUser\n  wasEdited\n  commentsCount\n  ...CommentsFragment\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n"
+    "text": "mutation CreatePostMutation(\n  $caption: String!\n  $sportId: ID!\n  $cityId: ID!\n  $media: [Upload!]\n) {\n  createPost(caption: $caption, sportId: $sportId, cityId: $cityId, media: $media) {\n    postEdge {\n      node {\n        ...PostCardFragment\n        id\n      }\n    }\n  }\n}\n\nfragment CommentCardFragment on Comment {\n  id\n  content\n  insertedAt\n  wasEdited\n  commentLikesCount\n  repliesCount\n  parentCommentId\n  user {\n    id\n    name\n    surname\n  }\n}\n\nfragment CommentCardWithRepliesFragment on Comment {\n  ...CommentCardFragment\n  replies(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  id\n}\n\nfragment CommentsFragment on Post {\n  id\n  comments(first: 20) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        ...CommentCardWithRepliesFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  postLikesCount\n  likedByCurrentUser\n  wasEdited\n  commentsCount\n  ...CommentsFragment\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n"
   }
 };
 })();

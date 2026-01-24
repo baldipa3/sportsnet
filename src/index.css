@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+/* Comment highlight animation for newly created comments */
+.comment-highlight-new {
+  animation: commentHighlightFade 2s ease-out;
+}
+
+@keyframes commentHighlightFade {
+  0% {
+    background-color: rgba(34, 197, 94, 0.25);
+    border-radius: 0.5rem;
+  }
+  100% {
+    background-color: transparent;
+  }
+}

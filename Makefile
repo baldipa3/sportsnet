@@ -11,9 +11,9 @@ npm:
 
 npm-install:
 	@echo "Installing Node.js dependencies inside Docker..." && \
-	docker exec frontend npm install && \
+	docker exec frontend npm install $(ARGS) && \
 	echo "Installing Node.js dependencies locally..." && \
-	npm install
+	npm install $(ARGS)
 
 up:
 	@echo "Starting frontend container..." && \

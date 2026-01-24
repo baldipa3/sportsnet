@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c83a7c5e207366d2256ee013815fcc92>>
+ * @generated SignedSource<<985a2e02a44d7b7a0da8514f13c0f687>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -106,35 +106,42 @@ v8 = {
   "name": "wasEdited",
   "storageKey": null
 },
-v9 = {
+v9 = [
+  {
+    "kind": "Literal",
+    "name": "first",
+    "value": 20
+  }
+],
+v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "content",
   "storageKey": null
 },
-v10 = {
+v11 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "commentLikesCount",
   "storageKey": null
 },
-v11 = {
+v12 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "repliesCount",
   "storageKey": null
 },
-v12 = {
+v13 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "parentCommentId",
   "storageKey": null
 },
-v13 = {
+v14 = {
   "alias": null,
   "args": null,
   "concreteType": "User",
@@ -160,21 +167,21 @@ v13 = {
   ],
   "storageKey": null
 },
-v14 = {
+v15 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v15 = {
+v16 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "cursor",
   "storageKey": null
 },
-v16 = {
+v17 = {
   "alias": null,
   "args": null,
   "concreteType": "PageInfo",
@@ -199,7 +206,7 @@ v16 = {
   ],
   "storageKey": null
 },
-v17 = {
+v18 = {
   "kind": "ClientExtension",
   "selections": [
     {
@@ -314,7 +321,7 @@ return {
                       },
                       {
                         "alias": null,
-                        "args": (v6/*: any*/),
+                        "args": (v9/*: any*/),
                         "concreteType": "CommentConnection",
                         "kind": "LinkedField",
                         "name": "comments",
@@ -337,13 +344,13 @@ return {
                                 "plural": false,
                                 "selections": [
                                   (v2/*: any*/),
-                                  (v9/*: any*/),
+                                  (v10/*: any*/),
                                   (v7/*: any*/),
                                   (v8/*: any*/),
-                                  (v10/*: any*/),
                                   (v11/*: any*/),
                                   (v12/*: any*/),
                                   (v13/*: any*/),
+                                  (v14/*: any*/),
                                   {
                                     "alias": null,
                                     "args": (v6/*: any*/),
@@ -369,23 +376,23 @@ return {
                                             "plural": false,
                                             "selections": [
                                               (v2/*: any*/),
-                                              (v9/*: any*/),
+                                              (v10/*: any*/),
                                               (v7/*: any*/),
                                               (v8/*: any*/),
-                                              (v10/*: any*/),
                                               (v11/*: any*/),
                                               (v12/*: any*/),
                                               (v13/*: any*/),
-                                              (v14/*: any*/)
+                                              (v14/*: any*/),
+                                              (v15/*: any*/)
                                             ],
                                             "storageKey": null
                                           },
-                                          (v15/*: any*/)
+                                          (v16/*: any*/)
                                         ],
                                         "storageKey": null
                                       },
-                                      (v16/*: any*/),
-                                      (v17/*: any*/)
+                                      (v17/*: any*/),
+                                      (v18/*: any*/)
                                     ],
                                     "storageKey": "replies(first:10)"
                                   },
@@ -398,22 +405,22 @@ return {
                                     "kind": "LinkedHandle",
                                     "name": "replies"
                                   },
-                                  (v14/*: any*/)
+                                  (v15/*: any*/)
                                 ],
                                 "storageKey": null
                               },
-                              (v15/*: any*/)
+                              (v16/*: any*/)
                             ],
                             "storageKey": null
                           },
-                          (v16/*: any*/),
-                          (v17/*: any*/)
+                          (v17/*: any*/),
+                          (v18/*: any*/)
                         ],
-                        "storageKey": "comments(first:10)"
+                        "storageKey": "comments(first:20)"
                       },
                       {
                         "alias": null,
-                        "args": (v6/*: any*/),
+                        "args": (v9/*: any*/),
                         "filters": null,
                         "handle": "connection",
                         "key": "CommentsFragment_comments",
@@ -449,15 +456,15 @@ return {
                         "selections": (v3/*: any*/),
                         "storageKey": null
                       },
-                      (v14/*: any*/)
+                      (v15/*: any*/)
                     ],
                     "storageKey": null
                   },
-                  (v15/*: any*/)
+                  (v16/*: any*/)
                 ],
                 "storageKey": null
               },
-              (v16/*: any*/)
+              (v17/*: any*/)
             ],
             "storageKey": "posts(first:10)"
           },
@@ -476,12 +483,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "79ef80ac09ee5e8328e5275e589bffef",
+    "cacheID": "e1caf370a2695a8667a514644dc588c5",
     "id": null,
     "metadata": {},
     "name": "SportsPostsByCityAndSportQuery",
     "operationKind": "query",
-    "text": "query SportsPostsByCityAndSportQuery(\n  $citySlug: String!\n  $sportSlug: String!\n) {\n  postsByCityAndSport(citySlug: $citySlug, sportSlug: $sportSlug) {\n    city {\n      id\n    }\n    sport {\n      id\n    }\n    ...SportsPostsFragment\n    id\n  }\n}\n\nfragment CommentCardFragment on Comment {\n  id\n  content\n  insertedAt\n  wasEdited\n  commentLikesCount\n  repliesCount\n  parentCommentId\n  user {\n    id\n    name\n    surname\n  }\n}\n\nfragment CommentCardWithRepliesFragment on Comment {\n  ...CommentCardFragment\n  replies(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  id\n}\n\nfragment CommentsFragment on Post {\n  id\n  comments(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        ...CommentCardWithRepliesFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  postLikesCount\n  likedByCurrentUser\n  wasEdited\n  commentsCount\n  ...CommentsFragment\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n\nfragment SportsPostsFragment on SportCityFeed {\n  id\n  posts(first: 10) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "query SportsPostsByCityAndSportQuery(\n  $citySlug: String!\n  $sportSlug: String!\n) {\n  postsByCityAndSport(citySlug: $citySlug, sportSlug: $sportSlug) {\n    city {\n      id\n    }\n    sport {\n      id\n    }\n    ...SportsPostsFragment\n    id\n  }\n}\n\nfragment CommentCardFragment on Comment {\n  id\n  content\n  insertedAt\n  wasEdited\n  commentLikesCount\n  repliesCount\n  parentCommentId\n  user {\n    id\n    name\n    surname\n  }\n}\n\nfragment CommentCardWithRepliesFragment on Comment {\n  ...CommentCardFragment\n  replies(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  id\n}\n\nfragment CommentsFragment on Post {\n  id\n  comments(first: 20) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        ...CommentCardWithRepliesFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n\nfragment PostCardFragment on Post {\n  id\n  caption\n  insertedAt\n  postLikesCount\n  likedByCurrentUser\n  wasEdited\n  commentsCount\n  ...CommentsFragment\n  media {\n    id\n    url\n  }\n  user {\n    id\n  }\n}\n\nfragment SportsPostsFragment on SportCityFeed {\n  id\n  posts(first: 10) {\n    edges {\n      node {\n        id\n        ...PostCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();

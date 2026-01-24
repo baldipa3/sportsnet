@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<566c97014d609924acec83fe1ab601df>>
+ * @generated SignedSource<<cf9318cb92fa44dbe0a499ed03acec22>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -28,7 +28,7 @@ export type CommentsPaginationQuery = {
 const node: ConcreteRequest = (function(){
 var v0 = [
   {
-    "defaultValue": 10,
+    "defaultValue": 20,
     "kind": "LocalArgument",
     "name": "count"
   },
@@ -370,16 +370,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "84fd5e46daa2a5ad4857217895907b1b",
+    "cacheID": "be2d9ca78b96ba20ad0095363f06165c",
     "id": null,
     "metadata": {},
     "name": "CommentsPaginationQuery",
     "operationKind": "query",
-    "text": "query CommentsPaginationQuery(\n  $count: Int = 10\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...CommentsFragment_1G22uz\n    id\n  }\n}\n\nfragment CommentCardFragment on Comment {\n  id\n  content\n  insertedAt\n  wasEdited\n  commentLikesCount\n  repliesCount\n  parentCommentId\n  user {\n    id\n    name\n    surname\n  }\n}\n\nfragment CommentCardWithRepliesFragment on Comment {\n  ...CommentCardFragment\n  replies(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  id\n}\n\nfragment CommentsFragment_1G22uz on Post {\n  id\n  comments(first: $count, after: $cursor) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        ...CommentCardWithRepliesFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
+    "text": "query CommentsPaginationQuery(\n  $count: Int = 20\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...CommentsFragment_1G22uz\n    id\n  }\n}\n\nfragment CommentCardFragment on Comment {\n  id\n  content\n  insertedAt\n  wasEdited\n  commentLikesCount\n  repliesCount\n  parentCommentId\n  user {\n    id\n    name\n    surname\n  }\n}\n\nfragment CommentCardWithRepliesFragment on Comment {\n  ...CommentCardFragment\n  replies(first: 10) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  id\n}\n\nfragment CommentsFragment_1G22uz on Post {\n  id\n  comments(first: $count, after: $cursor) {\n    edges {\n      node {\n        id\n        ...CommentCardFragment\n        ...CommentCardWithRepliesFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "28082947f17a57978aa5dd82ed1a09d5";
+(node as any).hash = "bc65db145c220f18725c1dfa79dfcea4";
 
 export default node;
