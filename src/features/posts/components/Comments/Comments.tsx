@@ -40,8 +40,10 @@ export const Comments = ({ postFragmentKey, onClose }: CommentsProps) => {
   const loadMoreTriggerRef = useRef<HTMLDivElement>(null);
 
   // Pagination fragment for comments
-  const { data, loadNext, hasNext, isLoadingNext } =
-    usePaginationFragment(CommentsFragment, postFragmentKey);
+  const { data, loadNext, hasNext, isLoadingNext } = usePaginationFragment(
+    CommentsFragment,
+    postFragmentKey
+  );
 
   // Reply state: track which comment we're replying to
   const [replyState, setReplyState] = useState<{
@@ -51,7 +53,9 @@ export const Comments = ({ postFragmentKey, onClose }: CommentsProps) => {
   } | null>(null);
 
   // Track which comment should auto-expand (for newly created replies)
-  const [expandedCommentId, setExpandedCommentId] = useState<string | null>(null);
+  const [expandedCommentId, setExpandedCommentId] = useState<string | null>(
+    null
+  );
 
   const comments = data.comments?.edges || [];
 
@@ -67,8 +71,7 @@ export const Comments = ({ postFragmentKey, onClose }: CommentsProps) => {
 
   // Infinite scroll: Intersection Observer for loading older comments at the bottom
   useEffect(() => {
-    if (!loadMoreTriggerRef.current || !hasNext || isLoadingNext)
-      return;
+    if (!loadMoreTriggerRef.current || !hasNext || isLoadingNext) return;
 
     const observer = new IntersectionObserver(
       (entries) => {

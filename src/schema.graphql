@@ -71,7 +71,7 @@ type Comment implements Node {
   "The ID of an object"
   id: ID!
 
-  content: String
+  content: String!
 
   insertedAt: DateTime
 

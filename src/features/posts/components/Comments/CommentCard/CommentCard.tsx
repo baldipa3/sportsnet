@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { FaReply, FaTrash, FaFlag, FaChevronDown } from "react-icons/fa";
+import {
+  FaReply,
+  FaTrash,
+  FaFlag,
+  FaChevronDown,
+  FaEdit,
+} from "react-icons/fa";
 import {
   graphql,
   useFragment,
@@ -15,6 +21,7 @@ import {
   getUserDisplayName,
 } from "../utils";
 import type { CommentCardWithRepliesFragment$data } from "./__generated__/CommentCardWithRepliesFragment.graphql";
+import { EditComment } from "../EditComment";
 
 // Base fragment for comment data (used by both top-level and replies)
 const CommentCardFragment = graphql`
@@ -83,6 +90,7 @@ const ReplyCard = ({
 }: ReplyCardProps) => {
   const comment = useFragment(CommentCardFragment, commentFragmentKey);
   const [commitDeleteMutation] = useMutation(DeleteCommentMutation);
+  const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
 
   const isOwner = currentUserId === comment.user.id;
 
@@ -137,6 +145,10 @@ const ReplyCard = ({
     );
   };
 
+  function handleEdit() {
+    setIsReplyModalOpen(true);
+  }
+
   const menuOptions: MenuOption[] = isOwner
     ? [
         {
@@ -144,6 +156,11 @@ const ReplyCard = ({
           onClick: handleDelete,
           variant: "danger",
           icon: <FaTrash className="w-4 h-4" />,
+        },
+        {
+          label: "Edit Post",
+          onClick: handleEdit,
+          icon: <FaEdit className="w-4 h-4" />,
         },
       ]
     : [
@@ -158,68 +175,80 @@ const ReplyCard = ({
   const insertedAtText = comment.insertedAt || new Date().toISOString();
 
   return (
-    <div
-      data-comment-id={comment.id}
-      className="ml-12 border-l-2 border-gray-700 pl-4"
-    >
-      <div className="flex gap-3 p-2 hover:bg-[#222222] rounded-lg transition-colors">
-        {/* Avatar */}
-        <div className="flex-shrink-0">
-          <img
-            src={"/assets/avatar.svg"}
-            alt={`${getUserDisplayName(comment.user)} avatar`}
-            className="w-8 h-8 rounded-full object-cover"
-          />
-        </div>
-
-        {/* Comment Content */}
-        <div className="flex-1 min-w-0">
-          {/* Header: Username + Timestamp */}
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-gray-200 font-semibold text-sm">
-              {getUserDisplayName(comment.user)}
-            </span>
-            <span className="text-gray-500 text-xs">
-              {formatRelativeTime(insertedAtText)}
-            </span>
-            {comment.wasEdited && (
-              <span className="text-xs text-gray-500 italic">(edited)</span>
-            )}
+    <>
+      <div
+        data-comment-id={comment.id}
+        className="ml-12 border-l-2 border-gray-700 pl-4"
+      >
+        <div className="flex gap-3 p-2 hover:bg-[#222222] rounded-lg transition-colors">
+          {/* Avatar */}
+          <div className="flex-shrink-0">
+            <img
+              src={"/assets/avatar.svg"}
+              alt={`${getUserDisplayName(comment.user)} avatar`}
+              className="w-8 h-8 rounded-full object-cover"
+            />
           </div>
 
-          {/* Comment Text */}
-          <p className="text-gray-300 text-sm mb-2 break-words">
-            {highlightMentions(contentText)}
-          </p>
-
-          {/* Actions Row */}
-          <div className="flex items-center gap-4">
-            {/* Like count display */}
-            {comment.commentLikesCount > 0 && (
-              <span className="text-xs text-gray-400">
-                {comment.commentLikesCount}{" "}
-                {comment.commentLikesCount === 1 ? "like" : "likes"}
+          {/* Comment Content */}
+          <div className="flex-1 min-w-0">
+            {/* Header: Username + Timestamp */}
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-gray-200 font-semibold text-sm">
+                {getUserDisplayName(comment.user)}
               </span>
-            )}
+              <span className="text-gray-500 text-xs">
+                {formatRelativeTime(insertedAtText)}
+              </span>
+              {comment.wasEdited && (
+                <span className="text-xs text-gray-500 italic">(edited)</span>
+              )}
+            </div>
 
-            {/* Reply Button */}
-            <button
-              onClick={handleReplyClick}
-              className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors group"
-              aria-label="Reply to comment"
-            >
-              <FaReply className="w-4 h-4" />
-              <span className="text-xs">Reply</span>
-            </button>
+            {/* Comment Text */}
+            <p className="text-gray-300 text-sm mb-2 break-words">
+              {highlightMentions(contentText)}
+            </p>
+
+            {/* Actions Row */}
+            <div className="flex items-center gap-4">
+              {/* Like count display */}
+              {comment.commentLikesCount > 0 && (
+                <span className="text-xs text-gray-400">
+                  {comment.commentLikesCount}{" "}
+                  {comment.commentLikesCount === 1 ? "like" : "likes"}
+                </span>
+              )}
+
+              {/* Reply Button */}
+              <button
+                onClick={handleReplyClick}
+                className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors group"
+                aria-label="Reply to comment"
+              >
+                <FaReply className="w-4 h-4" />
+                <span className="text-xs">Reply</span>
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* Kebab Menu */}
-        <div className="flex-shrink-0">
-          <KebabMenu options={menuOptions} />
+          {/* Kebab Menu */}
+          <div className="flex-shrink-0">
+            <KebabMenu options={menuOptions} />
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Edit Modal */}
+      {isReplyModalOpen && (
+        <EditComment
+          commentId={comment.id}
+          currentContent={comment.content}
+          insertedAt={comment.insertedAt}
+          onClose={() => setIsReplyModalOpen(false)}
+        />
+      )}
+    </>
   );
 };
 
@@ -244,6 +273,7 @@ const TopLevelCommentCard = ({
   const comment = useFragment(CommentCardFragment, commentFragmentKey);
   const [isRepliesExpanded, setIsRepliesExpanded] = useState(false);
   const [commitDeleteMutation] = useMutation(DeleteCommentMutation);
+  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
 
   // Auto-expand when forceExpand is triggered (for newly created replies)
   useEffect(() => {
@@ -313,6 +343,10 @@ const TopLevelCommentCard = ({
     }
   };
 
+  function handleEdit() {
+    setIsCommentModalOpen(true);
+  }
+
   const menuOptions: MenuOption[] = isOwner
     ? [
         {
@@ -320,6 +354,11 @@ const TopLevelCommentCard = ({
           onClick: handleDelete,
           variant: "danger",
           icon: <FaTrash className="w-4 h-4" />,
+        },
+        {
+          label: "Edit Post",
+          onClick: handleEdit,
+          icon: <FaEdit className="w-4 h-4" />,
         },
       ]
     : [
@@ -334,127 +373,139 @@ const TopLevelCommentCard = ({
   const insertedAtText = comment.insertedAt || new Date().toISOString();
 
   return (
-    <div data-comment-id={comment.id}>
-      <div className="flex gap-3 p-2 hover:bg-[#222222] rounded-lg transition-colors">
-        {/* Avatar */}
-        <div className="flex-shrink-0">
-          <img
-            src={"/assets/avatar.svg"}
-            alt={`${getUserDisplayName(comment.user)} avatar`}
-            className="w-10 h-10 rounded-full object-cover"
-          />
-        </div>
+    <>
+      <div data-comment-id={comment.id}>
+        <div className="flex gap-3 p-2 hover:bg-[#222222] rounded-lg transition-colors">
+          {/* Avatar */}
+          <div className="flex-shrink-0">
+            <img
+              src={"/assets/avatar.svg"}
+              alt={`${getUserDisplayName(comment.user)} avatar`}
+              className="w-10 h-10 rounded-full object-cover"
+            />
+          </div>
 
-        {/* Comment Content */}
-        <div className="flex-1 min-w-0">
-          {/* Header: Username + Timestamp */}
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-gray-200 font-semibold text-sm">
-              {getUserDisplayName(comment.user)}
-            </span>
-            <span className="text-gray-500 text-xs">
-              {formatRelativeTime(insertedAtText)}
-            </span>
-            {comment.wasEdited && (
-              <span className="text-xs text-gray-500 italic">(edited)</span>
+          {/* Comment Content */}
+          <div className="flex-1 min-w-0">
+            {/* Header: Username + Timestamp */}
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-gray-200 font-semibold text-sm">
+                {getUserDisplayName(comment.user)}
+              </span>
+              <span className="text-gray-500 text-xs">
+                {formatRelativeTime(insertedAtText)}
+              </span>
+              {comment.wasEdited && (
+                <span className="text-xs text-gray-500 italic">(edited)</span>
+              )}
+            </div>
+
+            {/* Comment Text */}
+            <p className="text-gray-300 text-sm mb-2 break-words">
+              {highlightMentions(contentText)}
+            </p>
+
+            {/* Actions Row */}
+            <div className="flex items-center gap-4">
+              {/* Like count display */}
+              {comment.commentLikesCount > 0 && (
+                <span className="text-xs text-gray-400">
+                  {comment.commentLikesCount}{" "}
+                  {comment.commentLikesCount === 1 ? "like" : "likes"}
+                </span>
+              )}
+
+              {/* Reply Button */}
+              <button
+                onClick={handleReplyClick}
+                className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors group"
+                aria-label="Reply to comment"
+              >
+                <FaReply className="w-4 h-4" />
+                <span className="text-xs">Reply</span>
+              </button>
+            </div>
+
+            {/* View Replies Button */}
+            {hasReplies && (
+              <button
+                onClick={handleToggleReplies}
+                className="flex items-center gap-2 mt-2 text-gray-400 hover:text-white transition-colors text-sm"
+              >
+                <FaChevronDown
+                  className={`w-3 h-3 transition-transform ${
+                    isRepliesExpanded ? "rotate-180" : ""
+                  }`}
+                />
+                <span>
+                  {isRepliesExpanded ? "Hide" : "View"} {comment.repliesCount}{" "}
+                  {comment.repliesCount === 1 ? "reply" : "replies"}
+                </span>
+              </button>
             )}
           </div>
 
-          {/* Comment Text */}
-          <p className="text-gray-300 text-sm mb-2 break-words">
-            {highlightMentions(contentText)}
-          </p>
+          {/* Kebab Menu */}
+          <div className="flex-shrink-0">
+            <KebabMenu options={menuOptions} />
+          </div>
+        </div>
 
-          {/* Actions Row */}
-          <div className="flex items-center gap-4">
-            {/* Like count display */}
-            {comment.commentLikesCount > 0 && (
-              <span className="text-xs text-gray-400">
-                {comment.commentLikesCount}{" "}
-                {comment.commentLikesCount === 1 ? "like" : "likes"}
-              </span>
+        {/* Replies Section */}
+        {isRepliesExpanded && repliesConnectionId && (
+          <div className="mt-2 space-y-2">
+            {typedRepliesData.replies?.edges?.map(
+              (
+                edge:
+                  | {
+                      readonly node:
+                        | {
+                            readonly id: string;
+                            readonly " $fragmentSpreads": FragmentRefs<"CommentCardFragment">;
+                          }
+                        | null
+                        | undefined;
+                    }
+                  | null
+                  | undefined
+              ) =>
+                edge?.node && (
+                  <ReplyCard
+                    key={edge.node.id}
+                    commentFragmentKey={edge.node}
+                    onReply={onReply}
+                    currentUserId={currentUserId}
+                    postId={postId}
+                    postConnectionId={postConnectionId}
+                    parentConnectionId={repliesConnectionId}
+                  />
+                )
             )}
 
-            {/* Reply Button */}
-            <button
-              onClick={handleReplyClick}
-              className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors group"
-              aria-label="Reply to comment"
-            >
-              <FaReply className="w-4 h-4" />
-              <span className="text-xs">Reply</span>
-            </button>
+            {/* Load More Replies (older replies) */}
+            {hasNext && (
+              <button
+                onClick={() => loadNext(10)}
+                disabled={isLoadingNext}
+                className="ml-12 px-4 py-1.5 text-sm bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed rounded-lg text-white transition-colors"
+              >
+                {isLoadingNext ? "Loading..." : "Load More Replies"}
+              </button>
+            )}
           </div>
-
-          {/* View Replies Button */}
-          {hasReplies && (
-            <button
-              onClick={handleToggleReplies}
-              className="flex items-center gap-2 mt-2 text-gray-400 hover:text-white transition-colors text-sm"
-            >
-              <FaChevronDown
-                className={`w-3 h-3 transition-transform ${
-                  isRepliesExpanded ? "rotate-180" : ""
-                }`}
-              />
-              <span>
-                {isRepliesExpanded ? "Hide" : "View"} {comment.repliesCount}{" "}
-                {comment.repliesCount === 1 ? "reply" : "replies"}
-              </span>
-            </button>
-          )}
-        </div>
-
-        {/* Kebab Menu */}
-        <div className="flex-shrink-0">
-          <KebabMenu options={menuOptions} />
-        </div>
+        )}
       </div>
 
-      {/* Replies Section */}
-      {isRepliesExpanded && repliesConnectionId && (
-        <div className="mt-2 space-y-2">
-          {typedRepliesData.replies?.edges?.map(
-            (
-              edge:
-                | {
-                    readonly node:
-                      | {
-                          readonly id: string;
-                          readonly " $fragmentSpreads": FragmentRefs<"CommentCardFragment">;
-                        }
-                      | null
-                      | undefined;
-                  }
-                | null
-                | undefined
-            ) =>
-              edge?.node && (
-                <ReplyCard
-                  key={edge.node.id}
-                  commentFragmentKey={edge.node}
-                  onReply={onReply}
-                  currentUserId={currentUserId}
-                  postId={postId}
-                  postConnectionId={postConnectionId}
-                  parentConnectionId={repliesConnectionId}
-                />
-              )
-          )}
-
-          {/* Load More Replies (older replies) */}
-          {hasNext && (
-            <button
-              onClick={() => loadNext(10)}
-              disabled={isLoadingNext}
-              className="ml-12 px-4 py-1.5 text-sm bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed rounded-lg text-white transition-colors"
-            >
-              {isLoadingNext ? "Loading..." : "Load More Replies"}
-            </button>
-          )}
-        </div>
+      {/* Edit Modal */}
+      {isCommentModalOpen && (
+        <EditComment
+          commentId={comment.id}
+          currentContent={comment.content}
+          insertedAt={comment.insertedAt}
+          onClose={() => setIsCommentModalOpen(false)}
+        />
       )}
-    </div>
+    </>
   );
 };
 

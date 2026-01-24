@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<49cf02f7be35bcdca24ee2df63290161>>
+ * @generated SignedSource<<45f2aa87a433ad87b95460204685fbd8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,7 +12,7 @@ import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type CommentCardFragment$data = {
   readonly commentLikesCount: number;
-  readonly content: string | null | undefined;
+  readonly content: string;
   readonly id: string;
   readonly insertedAt: any | null | undefined;
   readonly parentCommentId: string | null | undefined;
