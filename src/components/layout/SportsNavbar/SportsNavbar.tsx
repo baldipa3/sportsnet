@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import Select from "react-select";
-import { FaCamera, FaTrophy } from "react-icons/fa";
+import { FaCamera, FaTrophy, FaBell, FaComments } from "react-icons/fa";
 import { GiWhistle } from "react-icons/gi";
 import { UserMenu } from "@/components/layout";
 import { useParams } from "react-router-dom";
@@ -223,8 +223,34 @@ export const SportsNavbar = ({
         </div>
       </div>
 
-      {/* Right: User Profile Menu */}
-      <div className="flex items-center w-16">
+      <div className="flex items-center gap-3">
+        {/* Notifications Icon Button */}
+        <button
+          className="p-2 rounded-full hover:bg-white/10 transition-colors relative group"
+          title="Notifications"
+        >
+          <FaBell className="w-5 h-5 text-gray-400 group-hover:text-white" />
+          {/* Responsive Notification Badge */}
+          <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-red-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-[#121212] transition-all">
+            24
+          </span>
+        </button>
+
+        {/* Chat Icon Button */}
+        <button
+          className="p-2 rounded-full hover:bg-white/10 transition-colors relative group"
+          title="Messages"
+        >
+          <FaComments className="w-5 h-5 text-gray-400 group-hover:text-white" />
+          {/* Responsive Chat Badge */}
+          <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-blue-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-[#121212] transition-all">
+            8
+          </span>
+        </button>
+
+        {/* Divider */}
+        <div className="w-px h-6 bg-gray-800 mx-1"></div>
+
         <UserMenu />
       </div>
     </header>

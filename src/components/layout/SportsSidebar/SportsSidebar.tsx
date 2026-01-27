@@ -1,13 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import {
-  FaTrophy,
-  FaUsers,
-  FaFlag,
-  FaCalendarAlt,
-  FaBell,
-  FaComments,
-  FaCog,
-} from "react-icons/fa";
+import { FaTrophy, FaUsers, FaFlag, FaCalendarAlt } from "react-icons/fa";
+import { IoNutritionSharp } from "react-icons/io5";
+import { BiRun } from "react-icons/bi";
 import { useCurrentUser } from "@/utils/CurrentUserContext";
 import type { NavigationItem } from "./types";
 
@@ -45,29 +39,21 @@ export const SportsSidebar = () => {
       path: "/events",
     },
     {
-      type: "header",
-      label: "Account",
+      type: "link",
+      label: "Nutrition",
+      icon: IoNutritionSharp,
+      path: "/nutrition",
     },
     {
       type: "link",
-      label: "Notifications",
-      icon: FaBell,
-      path: "/notifications",
-      notifications: 24,
+      label: "Training",
+      icon: BiRun,
+      path: "/training",
     },
-    {
-      type: "link",
-      label: "Chat",
-      icon: FaComments,
-      path: "/chat",
-      messages: 8,
-    },
-    {
-      type: "link",
-      label: "Settings",
-      icon: FaCog,
-      path: "/settings",
-    },
+    // {
+    //   type: "header",
+    //   label: "Account",
+    // },
   ];
 
   return (
@@ -102,18 +88,6 @@ export const SportsSidebar = () => {
               >
                 {Icon && <Icon className="w-5 h-5" />}
                 <span className="flex-1">{item.label}</span>
-
-                {item.notifications && (
-                  <span className="ml-auto bg-red-600 text-white text-xs rounded-full px-2 py-0.5">
-                    {item.notifications}
-                  </span>
-                )}
-
-                {item.messages && (
-                  <span className="ml-auto bg-blue-600 text-white text-xs rounded-full px-2 py-0.5">
-                    {item.messages}
-                  </span>
-                )}
               </Link>
             </li>
           );
